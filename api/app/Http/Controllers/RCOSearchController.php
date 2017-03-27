@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\AddressTranslationService;
+use App\Services\GPSTranslationService;
 use Illuminate\Support\Facades\Input;
 
 class RCOSearchController extends Controller
@@ -20,7 +20,7 @@ class RCOSearchController extends Controller
 
         if ($address = Input::get('address')) {
             try {
-                $coordinates = AddressTranslationService::getGPSFromAddress($address);
+                $coordinates = GPSTranslationService::TranslationService::getGPSFromAddress($address);
             } catch (Exception $e) {
                 dd($e);
             }
