@@ -20,7 +20,7 @@ class RCOSearchController extends Controller
 
         if ($address = Input::get('address')) {
             try {
-                $coordinates = GPSTranslationService::TranslationService::getGPSFromAddress($address);
+                $coordinates = GPSTranslationService::getGPSFromAddress($address);
             } catch (Exception $e) {
                 dd($e);
             }
