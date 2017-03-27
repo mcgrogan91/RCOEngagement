@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\GPS\{
-    AISGPSTranslationService,
-    MockGPSTranslationService
-};
+use App\Services\GPS\AISGPSTranslationService;
+use App\Services\GPS\MockGPSTranslationService;
 use Illuminate\Support\ServiceProvider;
 
 class GPSServiceProvider extends ServiceProvider

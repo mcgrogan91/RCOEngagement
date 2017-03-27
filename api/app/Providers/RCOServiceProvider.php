@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\RCO\{
-    GISRCOTranslationService,
-    MockRCOTranslationService
-};
+use App\Services\RCO\GISRCOTranslationService;
+use App\Services\RCO\MockRCOTranslationService;
 use Illuminate\Support\ServiceProvider;
 
 class RCOServiceProvider extends ServiceProvider
