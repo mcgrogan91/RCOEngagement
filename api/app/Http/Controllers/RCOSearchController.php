@@ -8,7 +8,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AddressTranslationService;
 use App\Services\GPSTranslationService;
+use App\Services\MockGPSTranslationService;
+use App\Services\RCOTranslationService;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Input;
 
 class RCOSearchController extends Controller
@@ -16,18 +20,16 @@ class RCOSearchController extends Controller
 
     public function search()
     {
-        $rcos = collect(['Hello', 'World']);
+        $organizations = null;
 
         if ($address = Input::get('address')) {
             try {
-                $coordinates = GPSTranslationService::getGPSFromAddress($address);
+                $service = new AddressTranslationService();
+                $organizations = $service->getRCOListForAddress($address);
             } catch (Exception $e) {
-                dd($e);
+                dd("Woops! An error occured.  Information: ", $e);
             }
-            
-            return $coordinates;
         }
-
-        return response()->json($rcos);
+        return response()->json($organizations);
     }
 }
