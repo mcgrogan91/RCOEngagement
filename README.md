@@ -18,7 +18,7 @@ Instructions on running the angular installation
 
 #### Setting up the API
 
-The API is a Laravel 5.4 API with a requirement of running on at least PHP 5.6.  It resides in the 'api' directory.
+The API is a Laravel 5.4 API with a requirement of running on PHP 7.  It resides in the 'api' directory.
 
 This project uses composer to install its dependencies.  If you don't have composer installed, you can get it from [here](https://getcomposer.org/).
 
