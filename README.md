@@ -14,7 +14,22 @@ A tool bringing Registered Community Organization (RCO) information to the foref
 
 #### Setting up the front-end
 
-Instructions on running the angular installation
+The first step to setting up your enviorment is to install node.js. You can find the install download at the following url.
+https://nodejs.org/en/
+
+Download and install the package. Once you have done this open up your console.
+
+Next you will need to clone the github repo. You can find the repo at https://github.com/mcgrogan91/RCOEngagement. Once you have cloned this you will need to go back to your console and complete the following.
+
+Install the npm packages described in the package.json and verify that it works:
+Run the below commands in your console.
+
+npm install
+npm start
+
+The npm start command first compiles the application, then simultaneously re-compiles and runs the lite-server. Both the compiler and the server watch for file changes. At this point you should be able to view the App at localhost:3000 in  your browser.
+
+you can shut the server down manually with Ctrl-C.
 
 #### Setting up the API
 
