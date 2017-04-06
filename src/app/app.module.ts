@@ -23,7 +23,7 @@ import { routing } from './app.routing';
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule, routing ],
-  declarations: [ AppComponent, HeaderComponent, SearchComponent, AboutContentComponent, FooterComponent, FaqContentComponent, MapComponent
+  declarations: [ AppComponent, HeaderComponent, SearchComponent, AboutContentComponent, FooterComponent, FaqContentComponent, MapComponent,
   				  HomePage, FaqPage, AboutPage, DetailPage,
   				  UpdatePage
   				],
