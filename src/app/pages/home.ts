@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   template: `
   <header></header>
   <search></search>
+  <map></map>
   <footer></footer>
   `,
 
