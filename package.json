@@ -37,7 +37,14 @@
     "systemjs": "0.19.40",
     "core-js": "^2.4.1",
     "rxjs": "5.0.1",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.4",
+    "@types/geojson": "^1.0.1",
+    "@types/leaflet": "^1.0.60",
+    "@types/mapbox-gl": "^0.30.0",
+    "leaflet": "^1.0.3",
+    "mapbox-gl": "^0.35.1",
+    "mapbox.js": "^3.0.1"
+    
   },
   "devDependencies": {
     "concurrently": "^3.2.0",
