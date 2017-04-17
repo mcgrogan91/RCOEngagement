@@ -7,3 +7,13 @@
 .navbar {
   margin-bottom: 20px;
 }
+
+.member-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.member-list li {
+  display: inline-block;
+}
