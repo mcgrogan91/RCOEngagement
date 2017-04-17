@@ -4,31 +4,35 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomePage } from './pages/home';
 import { FaqPage } from './pages/faq';
 import { AboutPage } from './pages/about';
+import { MapPage } from './pages/map';
 import { DetailPage } from './pages/detail';
 import { UpdatePage } from './pages/update';
 
 const appRoutes: Routes = [
 	{
-		path:'',
+		path: '',
 		component: HomePage
 	},
 	{
-		path:'faq',
+		path: 'faq',
 		component: FaqPage
 	},
 	{
-		path:'about',
+		path: 'about',
 		component: AboutPage
 	},
 	{
-		path:'detail',
+		path: 'map',
+		component: MapPage
+	},
+	{
+		path: 'detail',
 		component: DetailPage
 	},
 	{
-		path:'update',
+		path: 'update',
 		component: UpdatePage
 	}
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
-

@@ -16,6 +16,7 @@ import { MapComponent } from './components/map.component';
 import { HomePage} from './pages/home';
 import { FaqPage } from './pages/faq';
 import { AboutPage } from './pages/about';
+import { MapPage } from './pages/map';
 import { DetailPage } from './pages/detail';
 import { UpdatePage } from './pages/update';
 import { routing } from './app.routing';
@@ -39,6 +40,7 @@ import { routing } from './app.routing';
     HomePage,
     FaqPage,
     AboutPage,
+    MapPage,
     DetailPage,
     UpdatePage
   ],

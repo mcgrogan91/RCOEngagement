@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'home',
+  selector: 'map',
   template: `
   <header></header>
-  <search></search>
+  <web-map></web-map>
   <footer></footer>
   `,
 
 })
-export class HomePage {}
+export class MapPage {}

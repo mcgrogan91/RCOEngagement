@@ -3,13 +3,15 @@ import { MapService } from '../map.service';
 import { Map } from 'mapbox-gl';
 
 @Component({
-  selector: 'map',
+  selector: 'web-map',
   templateUrl: './map.html',
   styleUrls: ['./map.component.css'],
   providers: [ MapService ]
 })
 
 export class MapComponent implements OnInit {
+  id: any;
+
 
   constructor(private mapService: MapService) {}
 
@@ -17,20 +19,20 @@ export class MapComponent implements OnInit {
     const map = new Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',
-      center: [-75.15, 39.99],
+      center: [-75.118, 40.002],
       zoom: 10
     });
 
     this.mapService.map = map;
 
-    // map.on('load', function(e: any) {
+    // map.on('load', () => {
     // // Add the data to your map as a layer
     //   map.addLayer({
-    //     id: 'locations',
+    //     id: 'rco-data',
     //     type: 'fill',
     //     // Add a GeoJSON source containing place coordinates and information.
     //     source: {
-    //      type: 'vector',
+    //       type: 'vector',
     //       // I uploaded the geojson data to mapbox and it created a vector file located here
     //       url: 'mapbox://billmoriarty.cj19vraqq08ft2qqsjfq3lgwk-5l6gv'
     //     },
