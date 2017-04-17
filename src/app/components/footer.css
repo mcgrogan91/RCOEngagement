@@ -1,12 +1,10 @@
 .background {
-	position: absolute;
-	right: 0;
+	position: fixed;
+	display: block;
 	bottom: 0;
-	left: 0;
 	padding: 1rem;
 	width: 100%;
 	background-color: rgba(70, 73, 76, 1);
-	margin-top: 25px;
 	text-align: center;
 	color: #d3d3d3;
 }
