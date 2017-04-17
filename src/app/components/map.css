@@ -1,10 +1,11 @@
 .card {
 	margin-top: 25px;
+	position: relative;
 }
 
 #map {
 	margin-top: 20px;
   margin-bottom: 25px;
   width: 100%;
-  height: 60vh;
+  height: 500px;
 }
