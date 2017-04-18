@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'detail',
   template: `
   <header></header>
+  <detailContent></detailContent>
   <footer></footer>
   `,
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from '../map.service';
+import { MapService } from '../../shared/map.service';
 import { Map } from 'mapbox-gl';
 
 @Component({

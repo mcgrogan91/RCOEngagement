@@ -5,12 +5,13 @@ import { HttpModule } from '@angular/http';
 
 
 import { AppComponent }  from './app.component';
-import { HeaderComponent }  from './components/header.component';
-import { SearchComponent } from './components/search.component';
-import { FooterComponent } from './components/footer.component';
-import { FaqContentComponent } from './components/faq.component';
-import { AboutContentComponent } from './components/about.component';
-import { MapComponent } from './components/map.component';
+import { HeaderComponent }  from './components/header/header.component';
+import { SearchComponent } from './components/search/search.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { FaqContentComponent } from './components/faq/faq.component';
+import { AboutContentComponent } from './components/about/about.component';
+import { MapComponent } from './components/map/map.component';
+import { DetailContentComponent } from './components/detail/detail.component';
 
 
 import { HomePage} from './pages/home';
@@ -36,6 +37,7 @@ import { routing } from './app.routing';
     AboutContentComponent,
     FooterComponent,
     FaqContentComponent,
+    DetailContentComponent,
     MapComponent,
     HomePage,
     FaqPage,
