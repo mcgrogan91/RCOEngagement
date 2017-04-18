@@ -1,3 +1,7 @@
-.card {
-	margin-top: 25px;
+.card-title {
+  margin-bottom: .75rem;
+}
+
+.search {
+  float: right;
 }
