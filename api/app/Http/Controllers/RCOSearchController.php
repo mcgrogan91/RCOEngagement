@@ -27,10 +27,10 @@ class RCOSearchController extends Controller
         $rco = $this->service->rcoService->getRCO($id);
         return response()->json($rco);
     }
-    public function search()
+    public function search($address = null)
     {
         $organizations = null;
-
+        $address = $address ?? Input::get('address');
         if ($address = Input::get('address')) {
             try {
                 $organizations = $this->service->getRCOListForAddress($address);

@@ -18,3 +18,7 @@ Route::get('/', function () {
 Route::get('/faq', function () {
     return view('faq');
 });
+
+Route::get('/map', function () {
+    return view('map');
+});

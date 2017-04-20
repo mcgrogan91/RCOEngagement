@@ -28,6 +28,12 @@
         .search {
           float: right;
         }
+        #map {
+          margin-top: 20px;
+          margin-bottom: 25px;
+          width: 100%;
+          height: 560px;
+        }
 
 
         </style>
@@ -43,6 +49,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="styles.css">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.36.0/mapbox-gl.css' rel='stylesheet' />
     </head>
     <body>
     @section('header')
