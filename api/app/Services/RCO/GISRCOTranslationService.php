@@ -125,11 +125,11 @@ class GISRCOTranslationService implements RCOTranslationService
                 // You can set any number of default request options.
                 'timeout'  => 2.0,
             ]);
-            $rco = Organization::find($id);
+            $rco = Organization::get($id);
             try {
                 set_time_limit(0);
                 $queryParams = [
-                    'where' => "name='".$rco->ORGANIZATION_NAME."'",
+                    'where' => "ORGANIZATION_NAME='".$rco->name."'",
                     'geometryType' => 'esriGeometryPoint',
                     'inSR' => 4326,
                     'spatialRel' => 'esriSpatialRelWithin',
