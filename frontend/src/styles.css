@@ -20,3 +20,9 @@ body {
 .member-list li {
   display: inline-block;
 }
+
+@media (max-width: 991px) {
+	.navbar-toggleable-md>.container {
+    width: 100%;
+	}
+}
