@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Input;
 class RCOSearchController extends Controller
 {
 
+    public function get($id)
+    {
+        dd($id);
+    }
     public function search()
     {
         $organizations = null;
