@@ -178,6 +178,10 @@ class GISRCOTranslationService implements RCOTranslationService
                     // We didn't get a success, handle exception
                     throw $this->generateException($response);
                 }
+            } catch (Exception $e) {
+            // Something bad happened during the
+            throw $e;
+            }
         } else {
             $rco = Cache::get("rco_$id");
         }
