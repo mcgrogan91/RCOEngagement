@@ -125,7 +125,7 @@ class GISRCOTranslationService implements RCOTranslationService
                 // You can set any number of default request options.
                 'timeout'  => 2.0,
             ]);
-            $rco = Organization::get($id);
+            $rco = Organization::find($id);
             try {
                 set_time_limit(0);
                 $queryParams = [
