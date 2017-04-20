@@ -1,7 +1,7 @@
 #!/bin/bash
 pushd frontend
 npm install
-npm run build
+npm run build -- --prod
 popd
 
 if [ -L api/public/app ]; then
