@@ -25,7 +25,7 @@ class RCOSearchController extends Controller
     public function get($id)
     {
         $rco = $this->service->rcoService->getRCO($id);
-        dd($rco);
+        return response()->json($rco);
     }
     public function search()
     {
