@@ -37,9 +37,10 @@ class GISRCOTranslationService implements RCOTranslationService
         ]);
 
         try {
+            set_time_limit(0);
             $queryParams = [
                 'where' => '1=1',
-                'geometry' => '{"y":"'.$coordinates->latitude.'","x":"'.$coordinates->longitude.'"}',
+                'geometry' => sprintf('{"y":"%s","x":"%s"}', $coordinates->latitude, $coordinates->longitude),
                 'geometryType' => 'esriGeometryPoint',
                 'inSR' => 4326,
                 'spatialRel' => 'esriSpatialRelWithin',
@@ -71,14 +72,16 @@ class GISRCOTranslationService implements RCOTranslationService
             ];
             /** @var ResponseInterface $response */
             $response = $client->get('0/query', [
-                'query' => $queryParams
+                'query' => $queryParams,
+                'connect_timeout' => 20
             ]);
 
             if ($response->getStatusCode() === 200) {
                 $json = json_decode($response->getBody()->getContents());
-
                 foreach ($json->features as $rco) {
-                    $rcos[] = $rco->attributes;
+                    $current = $rco->attributes;
+                    $current->geometry = $rco->geometry;
+                    $rcos[] = $current;
                 }
             } else {
                 // We didn't get a success, handle exception

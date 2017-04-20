@@ -13,9 +13,10 @@ class CreateCommitteesTable extends Migration
      */
     public function up()
     {
+        // We should limit orgs to 7 committees
         Schema::create('committees', function (Blueprint $table) {
             $table->integer('organization_id')->unsigned();
-            $table->string('name');
+            $table->string('name', 100);
             $table->timestamps();
 
             $table->foreign('organization_id')->references('id')->on('organizations');
