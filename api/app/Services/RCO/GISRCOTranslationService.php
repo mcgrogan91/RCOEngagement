@@ -6,6 +6,8 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use stdClass;
 
+use App\Models\Organization;
+use Illuminate\Support\Facades\Cache;
 /**
  * This service interfaces with external API's that will allow it to convert a set of GPS coordinates
  * for a Philadelphia address into a set of Registered Community Organizations
@@ -23,77 +25,96 @@ class GISRCOTranslationService implements RCOTranslationService
     public function getRCOListForGPS(stdClass $coordinates): Collection
     {
         $rcos = [];
+        $coordinatePair = sprintf('{"y":"%s","x":"%s"}', $coordinates->latitude, $coordinates->longitude);
+        if (!Cache::has($coordinatePair)) {
+            $api = env('RCO_API_ADDRESS');
+            if (!$api) {
+                throw new Exception('RCO_API_ADDRESS not set up: See documentation for setup under External Resources');
+            }
 
-        $api = env('RCO_API_ADDRESS');
-        if (!$api) {
-            throw new Exception('RCO_API_ADDRESS not set up: See documentation for setup under External Resources');
-        }
-
-        $client = new Client([
-            // Base URI is used with relative requests
-            'base_uri' => $api,
-            // You can set any number of default request options.
-            'timeout'  => 2.0,
-        ]);
-
-        try {
-            set_time_limit(0);
-            $queryParams = [
-                'where' => '1=1',
-                'geometry' => sprintf('{"y":"%s","x":"%s"}', $coordinates->latitude, $coordinates->longitude),
-                'geometryType' => 'esriGeometryPoint',
-                'inSR' => 4326,
-                'spatialRel' => 'esriSpatialRelWithin',
-                'resultType' => 'none',
-                'distance' => '0.0',
-                'units' => 'esriSRUnit_Meter',
-                'returnGeodetic' => 'false',
-                'outFields' => '*',
-                'returnGeometry' => 'true',
-                'returnCentroid' => 'false',
-                'multipatchOption' => 'xyFootprint',
-                'maxAllowableOffset' => '',
-                'geometryPrecision' => '',
-                'outSR' => 4326,
-                'returnIdsOnly' => 'false',
-                'returnCountOnly' => 'false',
-                'returnExtentOnly' => 'false',
-                'returnDistinctValues' => 'false',
-                'orderByFields' => '',
-                'groupByFieldsForStatistics' => '',
-                'outStatistics' => '',
-                'resultOffset' => '',
-                'resultRecordCount' => '',
-                'returnZ' => 'false',
-                'returnM' => 'false',
-                'quantizationParameters' => '',
-                'sqlFormat' => 'none',
-                'f' => 'json',
-            ];
-            /** @var ResponseInterface $response */
-            $response = $client->get('0/query', [
-                'query' => $queryParams,
-                'connect_timeout' => 20
+            $client = new Client([
+                // Base URI is used with relative requests
+                'base_uri' => $api,
+                // You can set any number of default request options.
+                'timeout'  => 2.0,
             ]);
 
-            if ($response->getStatusCode() === 200) {
-                $json = json_decode($response->getBody()->getContents());
-                foreach ($json->features as $rco) {
-                    $current = $rco->attributes;
-                    $current->geometry = $rco->geometry;
-                    $rcos[] = $current;
+            try {
+                set_time_limit(0);
+                $queryParams = [
+                    'where' => '1=1',
+                    'geometry' => $coordinatePair,
+                    'geometryType' => 'esriGeometryPoint',
+                    'inSR' => 4326,
+                    'spatialRel' => 'esriSpatialRelWithin',
+                    'resultType' => 'none',
+                    'distance' => '0.0',
+                    'units' => 'esriSRUnit_Meter',
+                    'returnGeodetic' => 'false',
+                    'outFields' => '*',
+                    'returnGeometry' => 'true',
+                    'returnCentroid' => 'false',
+                    'multipatchOption' => 'xyFootprint',
+                    'maxAllowableOffset' => '',
+                    'geometryPrecision' => '',
+                    'outSR' => 4326,
+                    'returnIdsOnly' => 'false',
+                    'returnCountOnly' => 'false',
+                    'returnExtentOnly' => 'false',
+                    'returnDistinctValues' => 'false',
+                    'orderByFields' => '',
+                    'groupByFieldsForStatistics' => '',
+                    'outStatistics' => '',
+                    'resultOffset' => '',
+                    'resultRecordCount' => '',
+                    'returnZ' => 'false',
+                    'returnM' => 'false',
+                    'quantizationParameters' => '',
+                    'sqlFormat' => 'none',
+                    'f' => 'pgeojson',
+                ];
+                /** @var ResponseInterface $response */
+                $response = $client->get('0/query', [
+                    'query' => $queryParams,
+                    'connect_timeout' => 20
+                ]);
+
+                if ($response->getStatusCode() === 200) {
+                    $json = json_decode($response->getBody()->getContents());
+                    foreach ($json->features as $rco) {
+                        $current = $rco->properties;
+                        $current->geometry = $rco->geometry;
+                        $current = $this->sanitizeRCO($current);
+                        Cache::put("rco_".$current->id, $current, Carbon::today()->endOfDay());
+                        $rcos[] = $current;
+                    }
+                } else {
+                    // We didn't get a success, handle exception
+                    throw $this->generateException($response);
                 }
-            } else {
-                // We didn't get a success, handle exception
-                throw $this->generateException($response);
+                Cache::put($coordinatePair, $rcos, Carbon::today()->endOfDay());
+            } catch (Exception $e) {
+                // Something bad happened during the
+                throw $e;
             }
-        } catch (Exception $e) {
-            // Something bad happened during the
-            throw $e;
+        } else {
+            $rcos = Cache::get($coordinatePair);
+        }
+        return collect($rcos);
+    }
+
+    protected function sanitizeRCO($rco) {
+        $myRCO = Organization::where('name', $rco->ORGANIZATION_NAME)->first();
+        if (!$myRCO) {
+            $myRCO = new Organization();
+            $myRCO->name = $rco->ORGANIZATION_NAME;
+            $myRCO->save();
         }
 
-        return collect($rcos);
-
+        $rco->id = $myRCO->id;
+        $rco->social_media = $myRCO->socialMedia;
+        $rco->committees = $myRCO->committees;
+        return $rco;
     }
 
     /**
