@@ -17,5 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('find/{id}', 'RCOSearchController@search');
-Route::get('get', 'RCOSearchController@get');
+Route::get('find', 'RCOSearchController@search');
+Route::get('get/{id}', 'RCOSearchController@get');
