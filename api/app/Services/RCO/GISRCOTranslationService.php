@@ -104,6 +104,86 @@ class GISRCOTranslationService implements RCOTranslationService
         return collect($rcos);
     }
 
+    /**
+     * Given the local ID for an RCO, get any information that should be associated with it
+     * @param  int    $id The ID of the object we're looking for
+     * @return stdClass     The description of the RCO
+     */
+    public function getRCO(int $id): stdClass
+    {
+        $rco = null;
+
+        if (!Cache::has("rco_$id")) {
+            $api = env('RCO_API_ADDRESS');
+            if (!$api) {
+                throw new Exception('RCO_API_ADDRESS not set up: See documentation for setup under External Resources');
+            }
+
+            $client = new Client([
+                // Base URI is used with relative requests
+                'base_uri' => $api,
+                // You can set any number of default request options.
+                'timeout'  => 2.0,
+            ]);
+            $rco = Organization::get($id);
+            try {
+                set_time_limit(0);
+                $queryParams = [
+                    'where' => "name='".$rco->ORGANIZATION_NAME."'",
+                    'geometryType' => 'esriGeometryPoint',
+                    'inSR' => 4326,
+                    'spatialRel' => 'esriSpatialRelWithin',
+                    'resultType' => 'none',
+                    'distance' => '0.0',
+                    'units' => 'esriSRUnit_Meter',
+                    'returnGeodetic' => 'false',
+                    'outFields' => '*',
+                    'returnGeometry' => 'true',
+                    'returnCentroid' => 'false',
+                    'multipatchOption' => 'xyFootprint',
+                    'maxAllowableOffset' => '',
+                    'geometryPrecision' => '',
+                    'outSR' => 4326,
+                    'returnIdsOnly' => 'false',
+                    'returnCountOnly' => 'false',
+                    'returnExtentOnly' => 'false',
+                    'returnDistinctValues' => 'false',
+                    'orderByFields' => '',
+                    'groupByFieldsForStatistics' => '',
+                    'outStatistics' => '',
+                    'resultOffset' => '',
+                    'resultRecordCount' => '',
+                    'returnZ' => 'false',
+                    'returnM' => 'false',
+                    'quantizationParameters' => '',
+                    'sqlFormat' => 'none',
+                    'f' => 'pgeojson',
+                ];
+                /** @var ResponseInterface $response */
+                $response = $client->get('0/query', [
+                    'query' => $queryParams,
+                    'connect_timeout' => 20
+                ]);
+
+                if ($response->getStatusCode() === 200) {
+                    $json = json_decode($response->getBody()->getContents());
+                    foreach ($json->features as $rco) {
+                        $current = $rco->properties;
+                        $current->geometry = $rco->geometry;
+                        $current = $this->sanitizeRCO($current);
+                        Cache::put("rco_".$current->id, $current, Carbon::today()->endOfDay());
+                        $rco = $current;
+                    }
+                } else {
+                    // We didn't get a success, handle exception
+                    throw $this->generateException($response);
+                }
+        } else {
+            $rco = Cache::get("rco_$id");
+        }
+        return $rco;
+    }
+
     protected function sanitizeRCO($rco) {
         $myRCO = Organization::where('name', $rco->ORGANIZATION_NAME)->first();
         if (!$myRCO) {

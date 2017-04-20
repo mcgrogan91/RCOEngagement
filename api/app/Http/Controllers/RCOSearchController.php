@@ -17,10 +17,15 @@ use Illuminate\Support\Facades\Input;
 
 class RCOSearchController extends Controller
 {
+    public function __construct()
+    {
+        $this->service = new AddressTranslationService();
+    }
 
     public function get($id)
     {
-        dd($id);
+        $rco = $this->service->rcoService->getRCO($id);
+        dd($rco);
     }
     public function search()
     {
@@ -28,8 +33,7 @@ class RCOSearchController extends Controller
 
         if ($address = Input::get('address')) {
             try {
-                $service = new AddressTranslationService();
-                $organizations = $service->getRCOListForAddress($address);
+                $organizations = $this->service->getRCOListForAddress($address);
             } catch (Exception $e) {
                 dd("Woops! An error occured.  Information: ", $e);
             }
