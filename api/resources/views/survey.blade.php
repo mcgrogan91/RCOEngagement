@@ -74,6 +74,9 @@
     </div>
 @endsection
 
+@section('footer')
+@endsection
+
 @section('script')
     <script type="text/javascript">
         var difference = function(input, message, max_length) {
