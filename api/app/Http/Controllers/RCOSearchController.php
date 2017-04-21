@@ -40,4 +40,9 @@ class RCOSearchController extends Controller
         }
         return response()->json($organizations);
     }
+    public function all()
+    {
+        $rcos = $this->service->rcoService->getAllRCOs();
+        return response()->json($rcos);
+    }
 }

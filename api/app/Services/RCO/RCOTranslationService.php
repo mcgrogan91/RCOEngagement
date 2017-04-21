@@ -28,4 +28,11 @@ interface RCOTranslationService
      * @return stdClass     The description of the RCO
      */
     public function getRCO(int $id): stdClass;
+
+    /**
+     * Returns all available Registered Community Organizations
+     *
+     * @return Collection The full set of RCO's
+     */
+    public function getAllRCOs(): Collection;
 }

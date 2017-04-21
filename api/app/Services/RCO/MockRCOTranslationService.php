@@ -42,4 +42,14 @@ class MockRCOTranslationService implements RCOTranslationService
     {
         return null;
     }
+
+    /**
+     * Returns all available Registered Community Organizations
+     *
+     * @return Collection The full set of RCO's
+     */
+    public function getAllRCOs(): Collection
+    {
+        return $this->getRCOListForGPS(null);
+    }
 }
