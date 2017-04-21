@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\App;
  */
 class AddressTranslationService
 {
-    protected $gpsService;
+    public $gpsService;
 
-    protected $rcoService;
+    public $rcoService;
 
     public function __construct()
     {

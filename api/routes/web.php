@@ -12,5 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('search');
 });
+
+Route::get('/faq', function () {
+    return view('faq');
+});
+
+Route::get('/map', function () {
+    return view('map');
+});
+
+Route::get('/survey/{token}', 'SurveyController@get');

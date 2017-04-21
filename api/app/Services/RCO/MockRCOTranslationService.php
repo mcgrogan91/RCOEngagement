@@ -32,4 +32,24 @@ class MockRCOTranslationService implements RCOTranslationService
         }
         return collect($rcos);
     }
+
+    /**
+     * Given the local ID for an RCO, get any information that should be associated with it
+     * @param  int    $id The ID of the object we're looking for
+     * @return stdClass     The description of the RCO
+     */
+    public function getRCO(int $id): stdClass
+    {
+        return null;
+    }
+
+    /**
+     * Returns all available Registered Community Organizations
+     *
+     * @return Collection The full set of RCO's
+     */
+    public function getAllRCOs(): Collection
+    {
+        return $this->getRCOListForGPS(null);
+    }
 }
