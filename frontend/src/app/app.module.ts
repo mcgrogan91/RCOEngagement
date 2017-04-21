@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import 'rxjs/Rx';
 
 import { AppComponent }  from './app.component';
 import { HeaderComponent }  from './components/header/header.component';
@@ -11,6 +12,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { FaqContentComponent } from './components/faq/faq.component';
 import { AboutContentComponent } from './components/about/about.component';
 import { MapComponent } from './components/map/map.component';
+import { ResultsContentComponent } from './components/results/results.component';
 import { DetailContentComponent } from './components/detail/detail.component';
 
 
@@ -20,6 +22,8 @@ import { AboutPage } from './pages/about';
 import { MapPage } from './pages/map';
 import { DetailPage } from './pages/detail';
 import { UpdatePage } from './pages/update';
+import { ResultsPage } from './pages/results';
+
 import { routing } from './app.routing';
 
 
@@ -35,6 +39,7 @@ import { routing } from './app.routing';
     HeaderComponent,
     SearchComponent,
     AboutContentComponent,
+    ResultsContentComponent,
     FooterComponent,
     FaqContentComponent,
     DetailContentComponent,
@@ -44,8 +49,9 @@ import { routing } from './app.routing';
     AboutPage,
     MapPage,
     DetailPage,
-    UpdatePage
+    UpdatePage,
+    ResultsPage
   ],
-  bootstrap:    [ AppComponent ]
+  bootstrap:    [ AppComponent ],
 })
 export class AppModule { }

@@ -1,64 +1,55 @@
 <div class="container">
-	<div class="row">
-		<div class="col-12">
-      <div class="card">
-				<div class="card-block">
-					<h2 class="card-title">Kensington Independent Civic Association</h2>
+  <div class="row">
+    <div class="col-12">
+      <div class="card" *ngIf="!loading">
+        <div class="card-block">
+          <h2 class="card-title">{{ rco.ORGANIZATION_NAME }}</h2>
           <div class="col-7">
             <table class="table mt-5">
               <tbody>
                 <tr>
                   <th scope="row">Address</th>
-                  <td>722 E. Willard Street, 19134</td>
+                  <td>{{ rco.PRIMARY_ADDRESS }}</td>
                 </tr>
                 <tr>
                   <th scope="row">Meeting Address</th>
-                  <td>Harrowgate PAL Center H & Tioga Street, 19134</td>
+                  <td>{{ rco.MEETING_LOCATION_ADDRESS || "Not Listed" }}</td>
                 </tr>
                 <tr>
                   <th scope="row">Org Type</th>
-                  <td>Other</td>
+                  <td>{{ rco.ORG_TYPE }}</td>
                 </tr>
                 <tr>
                   <th scope="row">Prefered Contact Method</th>
-                  <td>Email</td>
+                  <td>{{ rco.PREFFERED_CONTACT_METHOD }}</td>
                 </tr>
                 <tr>
                   <th scope="row">Primary Name</th>
-                  <td>Jane Doe</td>
+                  <td>{{ rco.PRIMARY_NAME }}</td>
                 </tr>
                 <tr>
                   <th scope="row">Primary Email</th>
-                  <td>JaneDoe@gmail.com</td>
+                  <td>{{ rco.PRIMARY_EMAIL }}</td>
                 </tr>
                 <tr>
                   <th scope="row">Primary Phone</th>
-                  <td>2151111111</td>
+                  <td>{{ rco.PRIMARY_PHONE }}</td>
                 </tr>
                 <tr>
                   <th scope="row">Effective Date</th>
-                  <td>MM/DD/YYYY</td>
+                  <td>{{ rco.EFFECTIVE_DATE | date:"longDate" || "No date provided" }}</td>
                 </tr>
                 <tr>
                   <th scope="row">Expiration Year</th>
-                  <td>2018</td>
+                  <td>{{ EXPIRATION_YEAR | date:"longDate" }}</td>
                 </tr>
-                <tr>
-                  <th scope="row">Email</th>
-                  <td>RCO@rconame.org</td>
-                </tr>
-                <tr>
-                  <th scope="row">Primary Contact</th>
-                  <td>Primary Name</td>
-                </tr>
-                <!-- continue adding info from api -->
               </tbody>
             </table>
           </div>
         </div>
         <div class="col-5">
         </div>
-			</div>
-  	</div>
-	</div>
+      </div>
+    </div>
+  </div>
 </div>

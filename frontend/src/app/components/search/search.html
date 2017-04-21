@@ -11,9 +11,11 @@
           <form class="mt-5">
             <h2 class="card-title"><i class="fa fa-search mr-2" aria-hidden="true"></i>Search For RCO's</h2>
             <div class="form-group input-group-lg">
-              <input class="form-control" type="text" id="inputAddress" placeholder="Enter street address">
+              <input class="form-control" type="text" id="inputAddress" placeholder="Enter street address" name="address" [(ngModel)]="address" >
               <small id="inputAddressHelp" class="form-text text-muted">Example: 1401 John F Kennedy Blvd</small>
-              <button class="btn search btn-outline-success btn-lg" type="submit">Search</button>
+              <button class="btn search btn-outline-success btn-lg" type="submit"
+                (click)="searchForRCO()"
+                >Search</button>
             </div>
           </form>
 

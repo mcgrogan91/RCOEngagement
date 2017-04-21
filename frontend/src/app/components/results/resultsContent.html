@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <ul *ngIf="!loading">
+        <li *ngFor="let item of connector.list">
+          <a [routerLink]="['/detail/', item.id]">{{ item.ORGANIZATION_NAME }}</a>
+        </li>
+      </ul>
+      <div class="text-center" *ngIf="noResults">
+        No Results
+      </div>
+    </div>
+  </div>
+</div>
