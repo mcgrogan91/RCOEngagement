@@ -1,10 +1,23 @@
-.background {
+.footer {
 	position: fixed;
 	display: block;
+	max-height: 80px;
 	bottom: 0;
-	padding: 1rem;
 	width: 100%;
-	background-color: rgba(70, 73, 76, 1);
+	background-color: #f0f0f0;
 	text-align: center;
-	color: #d3d3d3;
+}
+
+.footer .resource {
+	padding: 10px;
+	font-size: 12px;
+	color: #444;
+	text-transform: uppercase;
+}
+
+/*Media Queries*/
+@media only screen and (max-width: 768px) {
+    .footer .resource {
+        font-size: 10px;
+    }
 }
