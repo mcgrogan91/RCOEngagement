@@ -14,4 +14,14 @@ class Organization extends Model
     {
         return $this->hasMany('App\Models\SocialMedia');
     }
+
+    public function getMedia($type)
+    {
+        foreach ($this->socialMedia as $media) {
+            if (strtolower($media->type) === strtolower($type)) {
+                return $media;
+            }
+        }
+        return null;
+    }
 }
