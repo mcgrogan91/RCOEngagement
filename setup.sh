@@ -1,9 +1,14 @@
+#!/bin/bash
 pushd frontend
 npm install
-npm run build
+npm run build -- --prod
 popd
 
-ln -s frontend/src api/public/app
+if [ -L api/public/app ]; then
+  rm api/public/app
+fi
+
+ln -s frontend/dist api/public/app
 
 pushd api
 composer install

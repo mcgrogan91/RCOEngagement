@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommitteesTable extends Migration
+class CreateSurveyTokensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCommitteesTable extends Migration
      */
     public function up()
     {
-        // We should limit orgs to 7 committees
-        Schema::create('committees', function (Blueprint $table) {
+        Schema::create('survey_tokens', function (Blueprint $table) {
             $table->integer('organization_id')->unsigned();
-            $table->string('name', 100);
+            $table->string('token',50);
+            $table->boolean('used')->default(false);
             $table->timestamps();
 
             $table->foreign('organization_id')->references('id')->on('organizations');
@@ -30,6 +30,6 @@ class CreateCommitteesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('committees');
+        //
     }
 }
