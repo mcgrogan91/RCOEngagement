@@ -5,7 +5,7 @@ import { Map } from 'mapbox-gl';
 @Component({
   selector: 'web-map',
   templateUrl: './map.html',
-  styleUrls: ['./map.css'],
+  styleUrls: ['./map.scss'],
   providers: [ MapService ]
 })
 

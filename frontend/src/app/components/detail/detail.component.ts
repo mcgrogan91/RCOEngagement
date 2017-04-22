@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'detailContent',
   templateUrl: './detailContent.html',
-  styleUrls: ['./detailContent.css']
+  styleUrls: ['./detailContent.scss']
 
 })
 export class DetailContentComponent  {}

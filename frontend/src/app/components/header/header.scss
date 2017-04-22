@@ -1,0 +1,115 @@
+//Colors
+$color1: #fff; // White
+$color2: #2176d2; // Bright Blue
+$color3: #96c9ff; // Light Blue
+
+.mainNav {
+  background-color: $color2;
+  position: fixed;
+  min-width: 100%;
+	top: 0;
+	z-index: 110;
+}
+
+.logo {
+  display: inline-block;
+  height: 45px;
+  margin: 1em 0;
+  max-width: 45px;
+}
+
+.wrapper {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 0 2%;
+}
+
+nav {
+  .nav-links {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    width: 70%;
+		text-transform: uppercase;
+		font-weight: 400;
+    a {
+      color: $color1;
+      text-decoration: none;
+      transition: all .5s ease;
+
+      &:hover {color: $color3;}
+    }
+  }
+
+  .nav-link  {
+    display: inline-block;
+  }
+
+  #menu-toggle {
+		display: none;
+	}
+
+  .label-toggle {
+		display: none;
+	}
+
+  .wrapper {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media screen and (max-width: 768px) {
+    nav {
+      .nav-links {
+        a {
+          color: $color2;
+        }
+      }
+    }
+    .nav-links {
+      background-color: $color1;
+      display: block;
+      height: 0;
+      list-style-type: none;
+      opacity: 0;
+      text-align: center;
+      transition: all 1s ease;
+      width: 100%;
+      visibility: hidden;
+    }
+
+    .nav-link {
+      border-bottom: 2px solid $color2;
+      color: $color2;
+      display: block;
+      font-size: 1.2em;
+      padding: 1.5em 0;
+    }
+
+		.nav-link:hover {
+			background-color: $color3;
+		}
+
+    #menu-toggle:checked ~ .nav-links {
+      opacity: 1;
+      height: auto;
+			margin-bottom: 10px;
+      visibility: visible;
+    }
+
+    .label-toggle {
+      background: linear-gradient(to bottom, $color1 0%, $color1 20%, transparent 20%, transparent 40%, $color1 40%, $color1 60%, transparent 60%, transparent 80%, $color1 80%, $color1 100%); //Gradient
+      cursor: pointer;
+      display: block;
+      float: right;
+      height: 35px;
+      margin-top: 1em;
+      width: 35px;
+    }
+
+    .wrapper {
+			display: block;
+		}
+  }
+}

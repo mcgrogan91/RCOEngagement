@@ -1,10 +1,19 @@
 body {
 	margin-top: 100px;
+	margin-bottom: 100px;
+	font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Montserrat', sans-serif;
 }
 
 .card {
 	margin-top: 25px;
-  margin-bottom: 125px;
+}
+
+.card-title {
+	font-weight: bold;
 }
 
 .member-list {

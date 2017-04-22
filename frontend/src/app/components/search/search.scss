@@ -1,0 +1,26 @@
+.card-title {
+  margin-bottom: .75rem;
+}
+.searchbox {
+  color: #fff;
+  background-color: #96c9ff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.form-group {
+  margin-bottom: 0;
+}
+
+.btn-outline-secondary {
+    margin-bottom: 0;
+    color: #fff;
+    background-image: none;
+    background-color: transparent;
+    border-color: #fff;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(256, 256, 256, 0.2);
+    }
+}
