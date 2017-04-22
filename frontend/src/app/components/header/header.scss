@@ -1,7 +1,7 @@
 //Colors
 $color1: #fff; // White
-$color2: #2176d2; // Bright Blue
-$color3: #96c9ff; // Light Blue
+$color2: #2176d2; // Ben Franklin Blue
+$color3: #96c9ff; // Ben Franklin Light
 
 .mainNav {
   background-color: $color2;
@@ -13,15 +13,18 @@ $color3: #96c9ff; // Light Blue
 
 .logo {
   display: inline-block;
-  height: 45px;
   margin: 1em 0;
-  max-width: 45px;
+  width: 90px;
+  & img {
+    width: 100%;
+    border-radius: 2px;
+  }
 }
 
 .wrapper {
   margin: 0 auto;
   max-width: 960px;
-  padding: 0 2%;
+  padding: 0;
 }
 
 nav {
@@ -74,7 +77,7 @@ nav {
       list-style-type: none;
       opacity: 0;
       text-align: center;
-      transition: all 1s ease;
+      transition: all 0.5s ease;
       width: 100%;
       visibility: hidden;
     }
@@ -103,9 +106,9 @@ nav {
       cursor: pointer;
       display: block;
       float: right;
-      height: 35px;
+      height: 45px;
       margin-top: 1em;
-      width: 35px;
+      width: 45px;
     }
 
     .wrapper {

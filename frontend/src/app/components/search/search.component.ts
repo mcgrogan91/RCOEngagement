@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { ConnectorService } from '../../services/connector.service';
 
 @Component({
   selector: 'search',
@@ -6,4 +8,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./search.scss']
 
 })
-export class SearchComponent  {}
+
+export class SearchComponent  {
+
+  address: string;
+
+  constructor(public connectorService:ConnectorService, public router:Router) {}
+
+  searchForRCO() {
+    this.router.navigate(["/search"], {queryParams: {q: this.address}});
+  }
+}

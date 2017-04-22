@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'home',
+  selector: 'results',
   template: `
   <header></header>
-  <search></search>
+  <resultsContent></resultsContent>
   <footer></footer>
   `
 
 })
-export class HomePage {}
+export class ResultsPage {}

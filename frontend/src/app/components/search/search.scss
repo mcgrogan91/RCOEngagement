@@ -2,7 +2,7 @@
   margin-bottom: .75rem;
 }
 .searchbox {
-  color: #fff;
+  color: #2176d2;
   background-color: #96c9ff;
   padding: 20px;
   text-align: center;
@@ -15,12 +15,12 @@
 
 .btn-outline-secondary {
     margin-bottom: 0;
-    color: #fff;
+    color: #2176d2;
     background-image: none;
     background-color: transparent;
-    border-color: #fff;
+    border-color: #2176d2;
     cursor: pointer;
     &:hover {
-      background-color: rgba(256, 256, 256, 0.2);
+      background-color: rgba(37, 131, 231, 0.3);
     }
 }
