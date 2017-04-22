@@ -1,13 +1,20 @@
-<div class="container">
+<div class="container results">
   <div class="row">
-    <div class="col-12">
-      <ul *ngIf="!loading">
-        <li *ngFor="let item of connector.list">
-          <a [routerLink]="['/detail/', item.id]">{{ item.ORGANIZATION_NAME }}</a>
-        </li>
-      </ul>
-      <div class="text-center" *ngIf="noResults">
-        No Results
+    <div class="col-sm-12">
+      <div class="card">
+        <h3 class="card-header">Search Results</h3>
+        <div class="card-block">
+          <p>Below are the RCO's that affect the provided address.</p>
+          <ul class="resultsList" *ngIf="!loading">
+            <li *ngFor="let item of connector.list">
+              <a [routerLink]="['/detail/', item.id]">{{ item.ORGANIZATION_NAME }}</a>
+            </li>
+          </ul>
+          <div class="text-center" *ngIf="noResults">
+            No Results
+          </div>
+          <a href="#" routerLink='/' class="btn btn-primary">Home</a>
+        </div>
       </div>
     </div>
   </div>
