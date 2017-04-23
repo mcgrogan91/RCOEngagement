@@ -23,7 +23,7 @@ $color3: #96c9ff; // Ben Franklin Light
 
 .wrapper {
   margin: 0 auto;
-  max-width: 960px;
+  width: 100%;
   padding: 0;
 }
 
@@ -34,7 +34,7 @@ nav {
     list-style-type: none;
     width: 70%;
 		text-transform: uppercase;
-		font-weight: 400;
+		font-weight: 500;
     a {
       color: $color1;
       text-decoration: none;
@@ -106,13 +106,19 @@ nav {
       cursor: pointer;
       display: block;
       float: right;
-      height: 45px;
+      height: 30px;
       margin-top: 1em;
-      width: 45px;
+      width: 30px;
     }
 
     .wrapper {
 			display: block;
 		}
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .logo {
+    width: 60px;
   }
 }
