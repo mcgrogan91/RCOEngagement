@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'home',
   template: `
   <header></header>
-  <faqContent></faqContent>
+  <search></search>
   <footer></footer>
   `
 })
