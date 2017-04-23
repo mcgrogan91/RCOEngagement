@@ -4,9 +4,8 @@ import { Component } from '@angular/core';
   selector: 'home',
   template: `
   <header></header>
-  <search></search>
+  <faqContent></faqContent>
   <footer></footer>
   `
-
 })
 export class HomePage {}
