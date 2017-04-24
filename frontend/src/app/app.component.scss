@@ -4,8 +4,15 @@
   flex-direction: column;
 }
 
+:host /deep/ header {
+  width: 100%;
+  top: 0;
+  position: fixed;
+  z-index: 100;
+}
+
 :host /deep/ router-outlet + * {
-  margin-top: 20px;
+  margin-top: 140px;
   margin-bottom: 40px;
   flex: 1;
 }

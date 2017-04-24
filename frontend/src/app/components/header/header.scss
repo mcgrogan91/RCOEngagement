@@ -6,9 +6,6 @@ $color3: #96c9ff; // Ben Franklin Light
 .mainNav {
   background-color: $color2;
   min-width: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 110;
   border-bottom: 6px solid $color3;
 }
 
