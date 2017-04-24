@@ -5,8 +5,8 @@
         <h3 class="card-header">Search Results</h3>
         <div class="card-block">
           <div *ngIf="!loading">
-            <p>Below are the RCO's that affect the provided address.</p>
-            <ul class="resultsList" >
+            <p>Below are the RCO's that affect <strong>{{search}}</strong></p>
+            <ul class="results-list" >
               <li *ngFor="let item of connector.list">
                 <a [routerLink]="['/detail/', item.id]">{{ item.ORGANIZATION_NAME }}</a>
               </li>

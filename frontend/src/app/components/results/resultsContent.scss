@@ -2,13 +2,26 @@
 }
 
 .results .card-header {
-	background-color: #96c9ff;
+  background-color: #96c9ff;
 }
 
 .results .btn {
 
 }
 
-.results .resultsList li {
-	margin-top: 10px;
+.results .results-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+
+.results .results-list li {
+  font-size: 1.2rem;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.results .results-list li:last-child {
+  border-bottom: none;
 }
