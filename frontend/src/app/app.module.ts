@@ -9,6 +9,7 @@ import { AppComponent }  from './app.component';
 import { HeaderComponent }  from './components/header/header.component';
 import { SearchComponent } from './components/search/search.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { HomeComponent } from './components/home/home.component';
 import { FaqContentComponent } from './components/faq/faq.component';
 import { AboutContentComponent } from './components/about/about.component';
 import { MapComponent } from './components/map/map.component';
@@ -38,6 +39,7 @@ import { routing } from './app.routing';
     AppComponent,
     HeaderComponent,
     SearchComponent,
+    HomeComponent,
     AboutContentComponent,
     ResultsContentComponent,
     FooterComponent,

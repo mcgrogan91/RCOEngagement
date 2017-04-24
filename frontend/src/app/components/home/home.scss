@@ -1,0 +1,22 @@
+.card-title {
+  margin-bottom: .75rem;
+}
+
+.searchbox {
+  background-color: #96c9ff;
+  padding: 20px;
+
+  .search {
+    border-color: #2176d2;
+  }
+}
+
+.btn-outline-secondary {
+    color: #fff;
+    background-color: #2176d2;
+    border-color: #2176d2;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(37, 131, 231, 0.3);
+    }
+}

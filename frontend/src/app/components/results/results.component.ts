@@ -15,18 +15,17 @@ export class ResultsContentComponent {
   noResults: boolean;
 
   constructor(public connector:ConnectorService, private route: ActivatedRoute) {
-    this.loading = true;
-    this.noResults = false;
   }
 
   ngOnInit() {
     this.sub = this.route.queryParams.subscribe(params => {
       this.search = params.q;
+
+      this.connector.clearResults();
+
       this.connector.fetchByAddress(this.search)
         .subscribe(data => {
-          this.loading = false;
       }, err => {
-        this.noResults = true;
       });
     });
   }

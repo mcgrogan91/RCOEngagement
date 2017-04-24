@@ -1,24 +1,33 @@
 <div class="container results">
   <div class="row">
+    <div class="col-12 col-lg-8 offset-lg-2">
+      <search [address]="search"></search>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="connector.list.length">
     <div class="col-sm-12">
       <div class="card">
         <h3 class="card-header">Search Results</h3>
         <div class="card-block">
-          <div *ngIf="!loading">
+          <div *ngIf="loading">
+            Please wait..
+          </div>
+
+          <div>
+
             <p>Below are the RCO's that affect <strong>{{search}}</strong></p>
             <ul class="results-list" >
               <li *ngFor="let item of connector.list">
                 <a [routerLink]="['/detail/', item.id]">{{ item.ORGANIZATION_NAME }}</a>
               </li>
             </ul>
-            <div class="text-center" *ngIf="noResults">
-              No Results
-            </div>
-            <a href="#" routerLink='/' class="btn btn-primary">Home</a>
           </div>
-          <div *ngIf="loading">
-            Please wait..
+
+          <div class="" *ngIf="noResults">
+            No Results
           </div>
+
         </div>
       </div>
     </div>

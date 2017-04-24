@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { Router } from '@angular/router';
 import { ConnectorService } from '../../services/connector.service';
 
@@ -11,7 +11,7 @@ import { ConnectorService } from '../../services/connector.service';
 
 export class SearchComponent  {
 
-  address: string;
+  @Input() address: string;
 
   constructor(public connectorService:ConnectorService, public router:Router) {}
 

@@ -7,10 +7,17 @@ export class ConnectorService {
 
   public rcos: {};
   public list: {}[];
+  public search: string;
 
   constructor(public http:Http) {
     this.rcos = {};
     this.list = [];
+    this.search = "";
+  }
+
+  clearResults() {
+    this.list = [];
+    this.search = "";
   }
 
   extractData(res:Response) {
@@ -42,7 +49,9 @@ export class ConnectorService {
     return Observable.throw(error.message);
   }
 
-  fetchByAddress(address:String) {
+  fetchByAddress(address:string) {
+    this.search = address;
+
     return this.http.get("http://api.myphilly.org/api/find?address="+address)
       .map(this.extractData.bind(this))
       .catch(this.handleError.bind(this));

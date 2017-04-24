@@ -1,38 +1,17 @@
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <div class="">
-        <div class="">
-          <h3 class="card-title">Welcome to My Philly</h3>
-          <div class="card-text">
-          <p>Philadelphia is a city of neighborhoods. Our neighborhoods are currently undergoing rapid change. These drastic changes to your neighborhood often require community input to get approved. You can learn about, and have a say in, how your neighborhood develops by attending zoning meetings held by your local Registered Community Organization (RCO). This website was created by Code for Philly as a resource to help you learn how the development and zoning process works, how to get involved at the local level, and learn other ways RCOs can improve the quality of life in your neighborhood.
-          </p>
-            <a class="btn btn-outline-primary mt-2" routerLink="/faq"><strong> Learn More</strong></a>
-          </div>
-        </div>
-      </div>
+<form class="searchbox mt-5">
+  <h3 class="card-title">
+    Find by Address
+  </h3>
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control search" type="text" id="inputAddress" placeholder="Enter street address" name="address" [(ngModel)]="address" >
+      <span class="input-group-btn">
+        <button class="btn search btn-outline-secondary " type="submit"
+          (click)="searchForRCO()"
+          ><i class="fa fa-search mr-2" aria-hidden="true"></i>Search</button>
+      </span>
     </div>
+    <small id="inputAddressHelp" class="form-text text-muted ml-1">Example: 1401 John F Kennedy Blvd</small>
   </div>
-
-  <div class="row">
-    <div class="col-12 col-lg-8 offset-lg-2">
-      <form class="searchbox mt-5">
-        <h3 class="card-title">
-          Find by Address
-        </h3>
-        <div class="form-group">
-          <div class="input-group">
-            <input class="form-control search" type="text" id="inputAddress" placeholder="Enter street address" name="address" [(ngModel)]="address" >
-            <span class="input-group-btn">
-              <button class="btn search btn-outline-secondary " type="submit"
-                (click)="searchForRCO()"
-                ><i class="fa fa-search mr-2" aria-hidden="true"></i>Search</button>
-            </span>
-          </div>
-          <small id="inputAddressHelp" class="form-text text-muted ml-1">Example: 1401 John F Kennedy Blvd</small>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+</form>
 

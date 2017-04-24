@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'home',
+  selector: 'homepage',
   template: `
-  <search></search>
+  <homeContent></homeContent>
   `
 })
 export class HomePage {}
