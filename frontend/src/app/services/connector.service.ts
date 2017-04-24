@@ -52,6 +52,10 @@ export class ConnectorService {
   fetchByAddress(address:string) {
     this.search = address;
 
+    if (!this.search) {
+      return Observable.throw("Nothing to search");
+    }
+
     return this.http.get("http://api.myphilly.org/api/find?address="+address)
       .map(this.extractData.bind(this))
       .catch(this.handleError.bind(this));
