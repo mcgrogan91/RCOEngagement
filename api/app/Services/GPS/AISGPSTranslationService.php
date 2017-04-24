@@ -40,6 +40,9 @@ class AISGPSTranslationService implements GPSTranslationService
         if (!$api) {
             throw new Exception('GPS_API_ADDRESS not set up: See documentation for setup under External Resources');
         }
+        if (!$address || strlen($address) === 0) {
+            return false;
+        }
 
         $client = new Client([
             // Base URI is used with relative requests

@@ -31,7 +31,7 @@ class RCOSearchController extends Controller
     {
         $organizations = null;
         $address = $address ?? Input::get('address');
-        if ($address = Input::get('address')) {
+        if (strlen($address) > 0) {
             try {
                 $organizations = $this->service->getRCOListForAddress($address);
             } catch (Exception $e) {
