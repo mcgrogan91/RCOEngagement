@@ -40,8 +40,8 @@ export class MapComponent implements OnInit {
         'source-layer': 'RCO_-_Zoning_RCO_2',
         // this is that nice blue color for the map
         'paint': {
-          // "fill-color": 'hsla(215, 87%, 55%, 0.13)'
-          'fill-color': 'hsla(6,22%,52%, 0.13)'
+          "fill-color": 'hsla(215, 87%, 55%, 0.13)'
+          //'fill-color': 'hsla(6,22%,52%, 0.13)'
         }
       });
     });

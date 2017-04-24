@@ -1,6 +1,27 @@
+.map-card {
+  background-color: #96c9ff;
+  -webkit-box-shadow: 4px 10px 10px -3px #a1a1a1;
+  -moz-box-shadow: 4px 10px 10px -3px #a1a1a1;
+  box-shadow: 4px 10px 10px -3px #a1a1a1;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.121569);
+  border-image: initial;
+  border-radius: 0.25rem;
+}
+
 #map {
   margin-top: 20px;
   margin-bottom: 25px;
   width: 100%;
   height: 560px;
+   border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.121569);
+  border-image: initial;
+  border-radius: 0.25rem;
+}
+
+.card-title {
+  text-align: center;
 }
