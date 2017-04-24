@@ -1,26 +1,19 @@
 .card-title {
   margin-bottom: .75rem;
 }
+
 .searchbox {
-  color: #2176d2;
   background-color: #96c9ff;
   padding: 20px;
-  text-align: center;
-  border-radius: 3px;
-  max-width: 550px;
-  margin-right: auto;
-  margin-left: auto;
-}
 
-.form-group {
-  margin-bottom: 0;
+  .search {
+    border-color: #2176d2;
+  }
 }
 
 .btn-outline-secondary {
-    margin-bottom: 0;
-    color: #2176d2;
-    background-image: none;
-    background-color: transparent;
+    color: #fff;
+    background-color: #2176d2;
     border-color: #2176d2;
     cursor: pointer;
     &:hover {

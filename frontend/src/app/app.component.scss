@@ -1,0 +1,15 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+:host /deep/ router-outlet + * {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  flex: 1;
+}
+
+:host /deep/ footer {
+  margin-top: auto;
+}
