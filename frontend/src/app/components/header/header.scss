@@ -78,20 +78,21 @@ nav {
         }
       }
     }
+
     .nav-links {
-      background-color: $color1;
+      background-color: transparent;
       display: block;
-      height: 0;
+      max-height: 0;
       list-style-type: none;
-      opacity: 0;
       text-align: center;
-      transition: all 0.5s ease;
+      transition: max-height 0.5s ease;
       width: 100%;
-      visibility: hidden;
+      overflow: hidden;
     }
 
     .nav-link {
-      border-bottom: 2px solid $color2;
+      margin-bottom: 2px;
+      background: #fff;
       color: $color2;
       display: block;
       font-size: 1.2em;
@@ -103,10 +104,8 @@ nav {
     }
 
     #menu-toggle:checked ~ .nav-links {
-      opacity: 1;
-      height: auto;
+      max-height: 600px;
       margin-bottom: 10px;
-      visibility: visible;
     }
 
     .label-toggle {
