@@ -40,6 +40,7 @@ class GISRCOTranslationService implements RCOTranslationService
             ]);
 
             try {
+                $time_search_started = Carbon::now();
                 set_time_limit(0);
                 $queryParams = [
                     'where' => '1=1',
@@ -79,12 +80,12 @@ class GISRCOTranslationService implements RCOTranslationService
                 ]);
 
                 if ($response->getStatusCode() === 200) {
+                    $time_search_completed = Carbon::now();
                     $json = json_decode($response->getBody()->getContents());
                     foreach ($json->features as $rco) {
                         $current = $rco->properties;
                         $current->geometry = $rco->geometry;
                         $current = $this->sanitizeRCO($current);
-                        error_log("Storing 'rco_{$current->id}' in cache");
                         Cache::put("rco_".$current->id, $current, Carbon::today()->endOfDay());
                         $rcos[] = $current;
                     }
@@ -92,16 +93,19 @@ class GISRCOTranslationService implements RCOTranslationService
                     // We didn't get a success, handle exception
                     throw $this->generateException($response);
                 }
-                error_log("Storing '$coordinatePair' in cache");
                 Cache::put($coordinatePair, $rcos, Carbon::today()->endOfDay());
             } catch (Exception $e) {
                 // Something bad happened during the
                 throw $e;
             }
         } else {
-            error_log("Getting '$coordinatePair' from cache");
+            $time_search_started = Carbon::now();
             $rcos = Cache::get($coordinatePair);
+            $time_search_completed = Carbon::now();
         }
+        $time_return = Carbon::now();
+        error_log("Search time: ".$time_search_completed->diffInSeconds($time_search_started). " seconds");
+        error_log("Processing time: ".$time_return->diffInSeconds($time_search_completed). " seconds");
         return collect($rcos);
     }
 
@@ -168,7 +172,6 @@ class GISRCOTranslationService implements RCOTranslationService
                         $current = $rco->properties;
                         $current->geometry = $rco->geometry;
                         $current = $this->sanitizeRCO($current);
-                        error_log("Storing 'rco_{$current->id}' in cache");
                         Cache::put("rco_".$current->id, $current, Carbon::today()->endOfDay());
                         $rcos[] = $current;
                     }
@@ -176,14 +179,12 @@ class GISRCOTranslationService implements RCOTranslationService
                     // We didn't get a success, handle exception
                     throw $this->generateException($response);
                 }
-                error_log("Storing 'all' in cache");
                 Cache::put('all', $rcos, Carbon::today()->endOfDay());
             } catch (Exception $e) {
                 // Something bad happened during the
                 throw $e;
             }
         } else {
-            error_log("Getting 'all' from cache");
             $rcos = Cache::get('all');
         }
         return collect($rcos);
