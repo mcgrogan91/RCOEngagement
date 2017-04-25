@@ -1,22 +1,38 @@
-.home-main {
-  margin-top: 2rem;
-}
+.home-callout {
+  font-size: 1.2em;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-bottom: .75em;
 
-.card-title {
-  margin-bottom: 1.75rem;
-  text-align: center;
-  margin-top: .75rem;
-}
-
-.card-text {
-  text-align: center;
-  list-style-position: inside;
-  margin-bottom: .75rem;
-
-  li { 
-    text-indent:-8px;
-    margin-bottom: .25rem; 
+  li {
+    line-height: 2.4rem;
+    position: relative;
+    padding-left: 42px;
+    margin-bottom: 0.5rem;
   }
+
+  i.fa {
+    font-size: 2.4rem;
+    position: absolute;
+    top: -2px;
+    left: 0;
+    text-align: center;
+  }
+
+  i.fa.fa-child {
+    color: #4caf50;
+    left: 5px;
+  }
+
+  i.fa.fa-rocket {
+    color: #F44336;
+  }
+
+  i.fa.fa-home {
+    color: #3F51B5;
+  }
+
 }
 
 .searchbox {
