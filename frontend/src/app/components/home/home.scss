@@ -8,6 +8,17 @@
   margin-top: .75rem;
 }
 
+.card-text {
+  text-align: center;
+  list-style-position: inside;
+  margin-bottom: .75rem;
+
+  li { 
+    text-indent:-8px;
+    margin-bottom: .25rem; 
+  }
+}
+
 .searchbox {
   background-color: #96c9ff;
   padding: 20px;
