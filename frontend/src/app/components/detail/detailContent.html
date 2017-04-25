@@ -1,16 +1,14 @@
 <div class="container">
   <div class="row">
-    <div class="col-12">
-      <div class="" *ngIf="!loading">
+    <div class="col-12" *ngIf="!loading">
+      <div class="card detail-card" >
         <div class="card-block">
           <h2 class="card-title">{{ rco.ORGANIZATION_NAME }}</h2>
-          <div class="col-7">
-            <table class="table mt-5">
+
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <table class="table">
               <tbody>
-                <tr>
-                  <th scope="row">Address</th>
-                  <td>{{ rco.PRIMARY_ADDRESS }}</td>
-                </tr>
                 <tr>
                   <th scope="row">Meeting Address</th>
                   <td>{{ rco.MEETING_LOCATION_ADDRESS || "Not Listed" }}</td>
@@ -20,34 +18,119 @@
                   <td>{{ rco.ORG_TYPE }}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Prefered Contact Method</th>
-                  <td>{{ rco.PREFFERED_CONTACT_METHOD }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Primary Name</th>
-                  <td>{{ rco.PRIMARY_NAME }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Primary Email</th>
-                  <td>{{ rco.PRIMARY_EMAIL }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Primary Phone</th>
-                  <td>{{ rco.PRIMARY_PHONE }}</td>
-                </tr>
-                <tr>
                   <th scope="row">Effective Date</th>
                   <td>{{ rco.EFFECTIVE_DATE | date:"longDate" || "No date provided" }}</td>
                 </tr>
                 <tr>
                   <th scope="row">Expiration Year</th>
-                  <td>{{ EXPIRATION_YEAR | date:"longDate" }}</td>
+                  <td>{{ rco.EXPIRATIONYEAR }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Prefered Contact Method</th>
+                  <td>{{ rco.PREFFERED_CONTACT_METHOD }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        <div class="col-12 col-lg-6">
+        </div>
+
+        <div class="col-12" >
+            <h3 class="mt-4">Mission Statement</h3>
+            <p>
+              {{ rco.mission_statement || "This RCO hasn't notified My Philly of their Mission Statement" }}
+            </p>
+        </div>
+
+        <div class="col-12" >
+            <h3 class="mt-4">Committees</h3>
+            <ul class="committee-list" *ngFor="let item of rco.committees">
+              <li>{{ item.name }}</li>
+            </ul>
+            <p *ngIf="rco.committees.length < 1">
+              This RCO hasn't notified My Philly of any committees.
+            </p>
+        </div>
+
+          <div class="col-12 col-lg-6">
+            <h3 class="mt-4">Primary Contact</h3>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th scope="row">Primary Name</th>
+                  <td>{{ rco.PRIMARY_NAME }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Primary Address</th>
+                  <td>{{ rco.PRIMARY_ADDRESS }}</td>
+                </tr>
+                <tr *ngIf="rco.PRIMARY_EMAIL">
+                  <th scope="row">Primary Email</th>
+                  <td>
+                    <i class="fa fa-envelope-o"></i>
+                    <a href="mailto:{{rco.PRIMARY_EMAIL}}">
+                      {{ rco.PRIMARY_EMAIL }}
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Primary Phone</th>
+                  <td>
+                    <i class="fa fa-phone"></i>
+                    <a href="tel:{{rco.PRIMARY_PHONE}}">
+                    {{ rco.PRIMARY_PHONE }}
+                    </a>
+                  </td>
+                </tr>
+                <tr *ngIf="rco.P_PHONE_EXT">
+                  <th scope="row">Alternate Phone Extension</th>
+                  <td>{{ rco.P_PHONE_EXT }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <h3 class="mt-4">Alternate Contact</h3>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th scope="row">Alternate  Name</th>
+                  <td>{{ rco.ALTERNATE_NAME }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Alternate Address</th>
+                  <td>{{ rco.ALTERNATE_ADDRESS }}</td>
+                </tr>
+                <tr *ngIf="rco.ALTERNATE_EMAIL">
+                  <th scope="row">Alternate Email</th>
+                  <td>
+                    <i class="fa fa-envelope-o"></i>
+                    <a href="mailto:{{rco.ALTERNATE_EMAIL}}">
+                      {{ rco.ALTERNATE_EMAIL }}
+                    </a>
+                  </td>
+                </tr>
+                <tr *ngIf="rco.ALTERNATE_PHONE">
+                  <th scope="row">Alternate Phone</th>
+                  <td>
+                    <i class="fa fa-phone"></i>
+                    <a href="tel:{{rco.ALTERNATE_PHONE}}">
+                    {{ rco.ALTERNATE_PHONE }}
+                    </a>
+                  </td>
+                </tr>
+                <tr *ngIf="rco.A_PHONE_EXT">
+                  <th scope="row">Alternate Phone Extension</th>
+                  <td>{{ rco.A_PHONE_EXT }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <div class="col-5">
+
+
         </div>
       </div>
     </div>
