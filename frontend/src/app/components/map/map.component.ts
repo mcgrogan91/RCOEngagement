@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
-import { Map } from 'mapbox-gl';
+import { Map, Popup } from 'mapbox-gl';
 
 @Component({
   selector: 'web-map',
@@ -25,33 +25,36 @@ export class MapComponent implements OnInit {
 
     this.mapService.map = map;
 
+      var layer: any;
+      layer = {
+      id: 'rco-data',
+      type: 'fill',
+      // Add a GeoJSON source containing place coordinates and information.
+      source: {
+        type: 'vector',
+        // I uploaded the geojson data to mapbox and it created a vector file located here
+        url: 'mapbox://billmoriarty.cj19vraqq08ft2qqsjfq3lgwk-5l6gv'
+      },
+      // this is the name of the file on mapbox
+      'source-layer': 'RCO_-_Zoning_RCO_2',
+      // this is that nice blue color for the map
+      'paint': {
+        "fill-color": 'hsla(215, 87%, 55%, 0.13)'
+        //'fill-color': 'hsla(6,22%,52%, 0.13)'
+      }
+    };
+
     map.on('load', () => {
     // Add the data to your map as a layer
-      map.addLayer({
-        id: 'rco-data',
-        type: 'fill',
-        // Add a GeoJSON source containing place coordinates and information.
-        source: {
-          type: 'vector',
-          // I uploaded the geojson data to mapbox and it created a vector file located here
-          url: 'mapbox://billmoriarty.cj19vraqq08ft2qqsjfq3lgwk-5l6gv'
-        },
-        // this is the name of the file on mapbox
-        'source-layer': 'RCO_-_Zoning_RCO_2',
-        // this is that nice blue color for the map
-        'paint': {
-          "fill-color": 'hsla(215, 87%, 55%, 0.13)'
-          //'fill-color': 'hsla(6,22%,52%, 0.13)'
-        }
-      });
+      map.addLayer(layer);
     });
 
     //When a click event occurs on a feature in the states layer, open a popup at the
     //location of the click, with description HTML from its properties.
     //I should make the names of the RCO's link to the RCO
-        map.on('click', 'locations', function (e) {
+        map.on.bind(map, "click", "rco-data")(function (e) {
 
-          var popup = new map.Popup();
+          var popup = new Popup();
           var string_for_popup;
 
           //this first check for No RCO's doesn't work yet
