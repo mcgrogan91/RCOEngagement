@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
-import { Map, Popup } from 'mapbox-gl';
+
+declare const mapboxgl;
+let Map = mapboxgl.Map;
+let Popup = mapboxgl.Popup;
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiYmlsbG1vcmlhcnR5IiwiYSI6ImNqMTVvZGF5bjAxMDEzM21vZDJoMTEya2QifQ.ok-L_bNQuF8knLOevFLezw';
 
 @Component({
   selector: 'web-map',
