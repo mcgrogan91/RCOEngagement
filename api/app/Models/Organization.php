@@ -70,11 +70,17 @@ class Organization extends Model
     {
         $polygon = preg_replace('/,(\d)/', ' $1', $polygon);
         $polygon = str_replace('],[', ',', $polygon);
-        $polygon = str_replace('[[', '((', $polygon);
-        $polygon = str_replace(']]', '))', $polygon);
-        $polygon = "POLYGON" . $polygon;
+        $polygon = str_replace('[[', '(', $polygon);
+        $polygon = str_replace(']]', ')', $polygon);
+        //$polygon = "POLYGON" . $polygon;
         return $polygon;
     }
+
+    public function setPolygonAttribute($value) {
+        $this->attributes['polygon'] = DB::raw("POLYGON($value)");
+    }
+ 
+
     /**
      * Get a new query builder for the model's table.
      * Manipulate in case we need to convert geometrical fields to text.
