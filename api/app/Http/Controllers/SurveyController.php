@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Committee;
 use App\Models\SurveyToken;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -64,7 +65,7 @@ class SurveyController
                     }
                 }
                 $org->save();
-
+                Cache::forget("rco_{$org->id}");
                 $survey->used = true;
                 $survey->save();
             }
