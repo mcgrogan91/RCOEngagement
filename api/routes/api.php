@@ -21,3 +21,6 @@ Route::get('all', 'RCOSearchController@all');
 Route::get('find', 'RCOSearchController@search');
 Route::get('find/{address}', 'RCOSearchController@search');
 Route::get('get/{id}', 'RCOSearchController@get');
+Route::get('cachec', function() {
+    Cache::flush();
+});

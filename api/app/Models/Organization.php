@@ -24,4 +24,17 @@ class Organization extends Model
         }
         return null;
     }
+
+    public function setMedia($type, $value)
+    {
+        $media = $this->getMedia($type);
+        if (!$media) {
+            $media = new SocialMedia();
+            $media->organization_id = $this->id;
+        }
+        $media->type = $type;
+        $media->handle = $value;
+        $media->save();
+        return $media;
+    }
 }

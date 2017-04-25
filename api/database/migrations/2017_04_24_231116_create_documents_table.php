@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSurveyTokensTable extends Migration
+class CreateDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSurveyTokensTable extends Migration
      */
     public function up()
     {
-        Schema::create('survey_tokens', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->integer('organization_id')->unsigned();
-            $table->string('token',50)->unique();
-            $table->boolean('used')->default(false);
+            $table->string('name');
+            $table->string('path');
             $table->timestamps();
 
             $table->foreign('organization_id')->references('id')->on('organizations');
@@ -30,6 +30,6 @@ class CreateSurveyTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('survey_tokens');
+        Schema::dropIfExists('documents');
     }
 }

@@ -46,9 +46,7 @@ class AISGPSTranslationService implements GPSTranslationService
 
         $client = new Client([
             // Base URI is used with relative requests
-            'base_uri' => $api,
-            // You can set any number of default request options.
-            'timeout'  => 2.0,
+            'base_uri' => $api
         ]);
 
         try {

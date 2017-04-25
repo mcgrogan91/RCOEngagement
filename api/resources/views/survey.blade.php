@@ -1,12 +1,14 @@
 @extends('layouts/main')
-
+@section('header')
+@endsection
 @section('content')
     <div class="container">
-        <br/><br/><br/><br/>
-
+        @if (\Illuminate\Support\Facades\Session::has('success'))
+            <div class="alert alert-success">{{ Session::get('success') }}</div>
+        @endif
         <div class="text-center"><strong>Registered Community Organization Survey</strong></div><br/>
-        <form name="survey">
-            <input type="hidden" name="token" value="{{$token->token}}"/>
+        <form name="survey" method="POST">
+            {{csrf_field()}}
             <div class="form-group row">
                 <label for="name" class="col-2 col-form-label">Organization Name</label>
                 <div class="col-10">
@@ -59,17 +61,22 @@
                     @foreach($rco->committees as $committee)
                         <li class="form-group row">
                             <input class="form-control col-sm-11" type="text" value="{{$committee->name}}" name="committees[]"{{$token->used ? ' disabled': ''}}>
-                            <button class="remove-committee col-sm-1 btn btn-sm btn-outline-danger">Remove</button>
+                            @if(!$token->used)
+                                <button class="remove-committee col-sm-1 btn btn-sm btn-outline-danger">Remove</button>
+                            @endif
                         </li>
                     @endforeach
                     </ol>
-                    @if(count($rco->committees) < 10)
+                    @if(!$token->used && count($rco->committees) < 10)
                         <button id="add_committee" class="btn btn-md btn-outline-success">Add Committee</button>
                     @endif
 
                 </div>
             </div>
 
+            @if(!$token->used)
+                <button class="btn btn-success">Submit</button>
+            @endif
         </form>
     </div>
 @endsection
@@ -78,45 +85,47 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript">
-        var difference = function(input, message, max_length) {
-            var text_length = input.val().length;
-            var remaining = max_length - text_length;
+    @if(!$token->used)
+        <script type="text/javascript">
+            var difference = function(input, message, max_length) {
+                var text_length = input.val().length;
+                var remaining = max_length - text_length;
 
-            message.html(remaining + ' characters remaining');
-        }
+                message.html(remaining + ' characters remaining');
+            }
 
-        var mission_statement = $('#mission_statement');
-        var mission_message = $('#count_message');
-        var mission_maximum = 2000;
+            var mission_statement = $('#mission_statement');
+            var mission_message = $('#count_message');
+            var mission_maximum = 2000;
 
-        difference(mission_statement, mission_message, mission_maximum);
-        mission_statement.on('keyup', function() {
             difference(mission_statement, mission_message, mission_maximum);
-        });
+            mission_statement.on('keyup', function() {
+                difference(mission_statement, mission_message, mission_maximum);
+            });
 
-        var list = $("#committee_list");
-
-        $("#add_committee").on('click', function() {
             var list = $("#committee_list");
-            if (list.children().length < 10) {
-                list.append('<li class="form-group row">'
-                        +'<input class="form-control col-sm-11" type="text" value="" name="committees[]">'
-                        +'<button class="remove-committee col-sm-1 btn search btn-sm btn-outline-danger">Remove</button>'
-                        +'</li>');
-            }
 
-            if (list.children().length >= 10) {
-                $("#add_committee").hide();
-            }
-            return false;
-        });
+            $("#add_committee").on('click', function() {
+                var list = $("#committee_list");
+                if (list.children().length < 10) {
+                    list.append('<li class="form-group row">'
+                            +'<input class="form-control col-sm-11" type="text" value="" name="committees[]">'
+                            +'<button class="remove-committee col-sm-1 btn search btn-sm btn-outline-danger">Remove</button>'
+                            +'</li>');
+                }
 
-        $('ol').on('click', '.remove-committee', function(event, el) {
-            $(this).parent().remove();
-            if (list.children().length < 10) {
-                $("#add_committee").show();
-            }
-        })
-    </script>
+                if (list.children().length >= 10) {
+                    $("#add_committee").hide();
+                }
+                return false;
+            });
+
+            $('ol').on('click', '.remove-committee', function(event, el) {
+                $(this).parent().remove();
+                if (list.children().length < 10) {
+                    $("#add_committee").show();
+                }
+            })
+        </script>
+    @endif
 @endsection

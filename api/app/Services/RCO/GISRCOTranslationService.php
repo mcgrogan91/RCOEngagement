@@ -36,9 +36,7 @@ class GISRCOTranslationService implements RCOTranslationService
 
             $client = new Client([
                 // Base URI is used with relative requests
-                'base_uri' => $api,
-                // You can set any number of default request options.
-                'timeout'  => 2.0,
+                'base_uri' => $api
             ]);
 
             try {
@@ -77,8 +75,7 @@ class GISRCOTranslationService implements RCOTranslationService
                 ];
                 /** @var ResponseInterface $response */
                 $response = $client->get('0/query', [
-                    'query' => $queryParams,
-                    'connect_timeout' => 20
+                    'query' => $queryParams
                 ]);
 
                 if ($response->getStatusCode() === 200) {
@@ -124,9 +121,7 @@ class GISRCOTranslationService implements RCOTranslationService
 
             $client = new Client([
                 // Base URI is used with relative requests
-                'base_uri' => $api,
-                // You can set any number of default request options.
-                'timeout'  => 2.0,
+                'base_uri' => $api
             ]);
 
             try {
@@ -164,8 +159,7 @@ class GISRCOTranslationService implements RCOTranslationService
                 ];
                 /** @var ResponseInterface $response */
                 $response = $client->get('0/query', [
-                    'query' => $queryParams,
-                    'connect_timeout' => 20
+                    'query' => $queryParams
                 ]);
 
                 if ($response->getStatusCode() === 200) {
@@ -212,9 +206,7 @@ class GISRCOTranslationService implements RCOTranslationService
 
             $client = new Client([
                 // Base URI is used with relative requests
-                'base_uri' => $api,
-                // You can set any number of default request options.
-                'timeout'  => 2.0,
+                'base_uri' => $api
             ]);
             $rco = Organization::find($id);
             try {
@@ -252,8 +244,7 @@ class GISRCOTranslationService implements RCOTranslationService
                 ];
                 /** @var ResponseInterface $response */
                 $response = $client->get('0/query', [
-                    'query' => $queryParams,
-                    'connect_timeout' => 20
+                    'query' => $queryParams
                 ]);
 
                 if ($response->getStatusCode() === 200) {

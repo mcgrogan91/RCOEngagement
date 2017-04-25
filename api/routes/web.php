@@ -24,3 +24,4 @@ Route::get('/map', function () {
 });
 
 Route::get('/survey/{token}', 'SurveyController@get');
+Route::post('/survey/{token}', 'SurveyController@store');
