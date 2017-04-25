@@ -40,7 +40,7 @@ class GISRCOTranslationService implements RCOTranslationService
             ]);
 
             try {
-                $time_search_started = Carbon\Carbon::now();
+                $time_search_started = Carbon::now();
                 set_time_limit(0);
                 $queryParams = [
                     'where' => '1=1',
@@ -80,7 +80,7 @@ class GISRCOTranslationService implements RCOTranslationService
                 ]);
 
                 if ($response->getStatusCode() === 200) {
-                    $time_search_completed = Carbon\Carbon::now();
+                    $time_search_completed = Carbon::now();
                     $json = json_decode($response->getBody()->getContents());
                     foreach ($json->features as $rco) {
                         $current = $rco->properties;
@@ -101,7 +101,7 @@ class GISRCOTranslationService implements RCOTranslationService
         } else {
             $rcos = Cache::get($coordinatePair);
         }
-        $time_return = Carbon\Carbon::now();
+        $time_return = Carbon::now();
         error_log("Search time: ".$time_search_completed->diffInSeconds($time_search_started). " seconds");
         error_log("Processing time: ".$time_return->diffInSeconds($time_search_completed). " seconds");
         return collect($rcos);
