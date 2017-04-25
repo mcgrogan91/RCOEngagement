@@ -32,5 +32,8 @@ export class DetailContentComponent  {
     });
   }
 
+  goBack() {
+    window.history.back();
+  }
 
 }

@@ -26,3 +26,33 @@
   margin: 0;
   padding: 0;
 }
+
+a.btn-outline-primary {
+  color: #fff;
+  background-color: #2176d2;
+  border-color: #2176d2;
+  cursor: pointer;
+  &:hover {
+		color: #fff;
+    background-color: rgba(37, 131, 231, 0.3);
+  }
+}
+
+@media only screen and (max-width: 500px) {
+	.card-title {
+		font-size: 1.25rem;
+	}
+	.section-title {
+		font-size: 1.25rem;
+	}
+  th {
+    font-size: 0.75rem;
+		font-weight: 700;
+  }
+	td {
+		font-size: 0.75rem;
+	}
+	li, p {
+		font-size: 0.75rem;
+	}
+}
