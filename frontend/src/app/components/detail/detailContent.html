@@ -2,8 +2,9 @@
   <div class="row">
     <div class="col-12">
       <div class="" *ngIf="!loading">
+        <a class="btn btn-outline-primary" (click)="goBack()"><i class="fa fa-chevron-left mr-2" aria-hidden="true"></i>Search Results</a>
         <div class="card-block">
-          <h2 class="card-title">{{ rco.ORGANIZATION_NAME }}</h2>
+          <h3 class="card-title">{{ rco.ORGANIZATION_NAME }}</h3>
           <div class="col-7">
             <table class="table mt-5">
               <tbody>
@@ -48,6 +49,7 @@
           </div>
         </div>
         <div class="col-5">
+          <img src="" alt="">
         </div>
       </div>
     </div>

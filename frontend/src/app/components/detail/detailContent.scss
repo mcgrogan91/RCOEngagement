@@ -17,4 +17,15 @@
 	td {
 	border-color: #444444;
 	}
-} 
+}
+
+a.btn-outline-primary {
+    color: #fff;
+    background-color: #2176d2;
+    border-color: #2176d2;
+    cursor: pointer;
+    &:hover {
+			color: #fff;
+      background-color: rgba(37, 131, 231, 0.3);
+    }
+}
