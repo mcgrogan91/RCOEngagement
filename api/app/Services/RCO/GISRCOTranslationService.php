@@ -99,7 +99,9 @@ class GISRCOTranslationService implements RCOTranslationService
                 throw $e;
             }
         } else {
+            $time_search_started = Carbon::now();
             $rcos = Cache::get($coordinatePair);
+            $time_search_completed = Carbon::now();
         }
         $time_return = Carbon::now();
         error_log("Search time: ".$time_search_completed->diffInSeconds($time_search_started). " seconds");
