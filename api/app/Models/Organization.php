@@ -72,12 +72,11 @@ class Organization extends Model
         $polygon = str_replace('],[', ',', $polygon);
         $polygon = str_replace('[[', '(', $polygon);
         $polygon = str_replace(']]', ')', $polygon);
-        //$polygon = "POLYGON" . $polygon;
         return $polygon;
     }
 
     public function setPolygonAttribute($value) {
-        $this->attributes['polygon'] = DB::raw("POLYGON($value)");
+        $this->attributes['polygon'] = DB::raw("GeomFromText('POLYGON($value)')");
     }
  
 
