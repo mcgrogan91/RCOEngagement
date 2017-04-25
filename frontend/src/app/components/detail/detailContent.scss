@@ -1,3 +1,21 @@
+.detail-card {
+  background-color: #f0f0f0;
+  -webkit-box-shadow: 4px 10px 10px -3px #a1a1a1;
+  -moz-box-shadow: 4px 10px 10px -3px #a1a1a1;
+  box-shadow: 4px 10px 10px -3px #a1a1a1;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.121569);
+  border-image: initial;
+  border-radius: 0.25rem;
+}
+
+.flat-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
 a.btn-outline-primary {
   color: #fff;
   background-color: #2176d2;
