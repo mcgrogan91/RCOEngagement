@@ -21,6 +21,9 @@ class CreateOrganizationsTable extends Migration
             $table->timestamp('last_response_at')->nullable()->default(null);
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE organizations ADD polygon POLYGON NOT NULL');
+        DB::statement('ALTER TABLE organizations ADD SPATIAL INDEX(polygon)');
     }
 
     /**
