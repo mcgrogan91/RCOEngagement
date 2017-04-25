@@ -2,54 +2,134 @@
   <div class="row">
     <div class="col-12">
       <div class="" *ngIf="!loading">
-        <a class="btn btn-outline-primary" (click)="goBack()"><i class="fa fa-chevron-left mr-2" aria-hidden="true"></i>Search Results</a>
         <div class="card-block">
-          <h3 class="card-title">{{ rco.ORGANIZATION_NAME }}</h3>
-          <div class="col-7">
-            <table class="table mt-5">
-              <tbody>
-                <tr>
-                  <th scope="row">Address</th>
-                  <td>{{ rco.PRIMARY_ADDRESS }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Meeting Address</th>
-                  <td>{{ rco.MEETING_LOCATION_ADDRESS || "Not Listed" }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Org Type</th>
-                  <td>{{ rco.ORG_TYPE }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Prefered Contact Method</th>
-                  <td>{{ rco.PREFFERED_CONTACT_METHOD }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Primary Name</th>
-                  <td>{{ rco.PRIMARY_NAME }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Primary Email</th>
-                  <td>{{ rco.PRIMARY_EMAIL }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Primary Phone</th>
-                  <td>{{ rco.PRIMARY_PHONE }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Effective Date</th>
-                  <td>{{ rco.EFFECTIVE_DATE | date:"longDate" || "No date provided" }}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Expiration Year</th>
-                  <td>{{ EXPIRATION_YEAR | date:"longDate" }}</td>
-                </tr>
-              </tbody>
-            </table>
+          <a class="btn btn-outline-primary btn-sm" (click)="goBack()"><i class="fa fa-chevron-left mr-2" aria-hidden="true"></i>Search Results</a>
+          <h3 class="card-title mt-3">{{ rco.ORGANIZATION_NAME }}</h3>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mt-2">
+                <table class="table table-sm">
+                  <tbody>
+                    <tr>
+                      <th scope="row">Meeting Address</th>
+                      <td>{{ rco.MEETING_LOCATION_ADDRESS || "Not Listed" }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Org Type</th>
+                      <td>{{ rco.ORG_TYPE }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Effective Date</th>
+                      <td>{{ rco.EFFECTIVE_DATE | date:"longDate" || "No date provided" }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Expiration Year</th>
+                      <td>{{ rco.EXPIRATIONYEAR || "No date provided" }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Website</th>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Application Documents</th>
+                      <td></td>
+                    </tr>
+
+                    <!-- Social Media -->
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          <div class="col-md-6">
+            <!-- map component -->
           </div>
         </div>
-        <div class="col-5">
-          <img src="" alt="">
+
+        <div class="row">
+          <div class="col-lg-6">
+            <h4 class="card-title mt-4">Mission</h4>
+            <p class="card-text">{{ rco.mission_statement || "This RCO hasn't notified My Philly of their Mission Statement" }}</p>
+          </div>
+
+          <div class="col-lg-6">
+            <h4 class="card-title mt-4">Committees</h4>
+            <ul class="committee-list" *ngFor="let item of rco.committees">
+              <li>{{ item.name }}</li>
+            </ul>
+            <p *ngIf="rco.committees.length < 1">
+              This RCO hasn't notified My Philly of any committees.
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <h4 class="card-title mt-4">Primary Contact Information</h4>
+            <div class="mt-2">
+              <table class="table table-sm">
+                <tbody>
+                  <tr>
+                    <th scope="row">Preferred Contact Method</th>
+                    <td>{{ rco.PREFFERED_CONTACT_METHOD || "Not specified" }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Organization Address</th>
+                    <td>{{ rco.MEETING_LOCATION_ADDRESS || "Not Listed" }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Primary Name</th>
+                    <td>{{ rco.PRIMARY_NAME }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Primary Email</th>
+                    <td>{{ rco.PRIMARY_EMAIL }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Primary Address</th>
+                    <td>{{ rco.PRIMARY_ADDRESS }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Primary Phone</th>
+                    <td>{{ rco.PRIMARY_PHONE }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Primary Phone Extension</th>
+                    <td>{{ rco.P_PHONE_EXT || "N/A" }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <h4 class="card-title mt-4">Alternate Contact Information</h4>
+            <div class="mt-2">
+              <table class="table table-sm">
+                <tbody>
+                  <tr>
+                    <th scope="row">Alternate Name</th>
+                    <td>{{ rco.ALTERNATE_NAME }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Alternate Email</th>
+                    <td>{{ rco.ALTERNATE_EMAIL }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Alternate Address</th>
+                    <td>{{ rco.ALTERNATE_ADDRESS }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Alternate Phone</th>
+                    <td>{{ rco.ALTERNATE_PHONE }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Alternate Phone Extension</th>
+                    <td>{{ rco.P_PHONE_EXT || "N/A" }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
