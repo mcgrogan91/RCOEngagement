@@ -286,6 +286,7 @@ class GISRCOTranslationService implements RCOTranslationService
         }
 
         $rco->id = $myRCO->id;
+        $rco->mission_statement = $myRCO->mission_statement;
         $rco->social_media = $myRCO->socialMedia;
         $rco->committees = $myRCO->committees;
         return $rco;
