@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Organization;
 use App\Services\AddressTranslationService;
 use App\Services\GPSTranslationService;
 use App\Services\MockGPSTranslationService;
@@ -24,8 +25,7 @@ class RCOSearchController extends Controller
 
     public function get($id)
     {
-        $rco = $this->service->rcoService->getRCO($id);
-        return response()->json($rco);
+        return response()->json(Organization::find($id));
     }
     public function search($address = null)
     {

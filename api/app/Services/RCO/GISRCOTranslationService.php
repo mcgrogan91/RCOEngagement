@@ -26,10 +26,10 @@ class GISRCOTranslationService implements RCOTranslationService
      */
     public function getRCOListForGPS(stdClass $coordinates): Collection
     {
+
         $rcos = [];
-        $coordinatePoint = sprintf('POINT(%s %s)', $coordinates->latitude, $coordinates->longitude);
-        $organizations = Organization::whereRaw("Contains(polygon, GeomFromText('$coordinatePoint'))")->get();
-        
+        $coordinatePoint = sprintf('POINT(%s %s)', $coordinates->longitude, $coordinates->latitude);
+        $organizations = Organization::whereRaw("ST_CONTAINS(geometry, GeomFromText('$coordinatePoint', 4326))")->with(['committees', 'socialMedia'])->get();
         return $organizations;
     }
 
@@ -107,87 +107,6 @@ class GISRCOTranslationService implements RCOTranslationService
         return collect($rcos);
     }
 
-    /**
-     * Given the local ID for an RCO, get any information that should be associated with it
-     * @param  int    $id The ID of the object we're looking for
-     * @return stdClass     The description of the RCO
-     */
-    public function getRCO(int $id): stdClass
-    {
-        $rco = null;
-
-        if (!Cache::has("rco_$id")) {
-            $api = env('RCO_API_ADDRESS');
-            if (!$api) {
-                throw new Exception('RCO_API_ADDRESS not set up: See documentation for setup under External Resources');
-            }
-
-            $client = new Client([
-                // Base URI is used with relative requests
-                'base_uri' => $api
-            ]);
-            $rco = Organization::find($id);
-            try {
-                set_time_limit(0);
-                $queryParams = [
-                    'where' => "ORGANIZATION_NAME='".$rco->name."'",
-                    'geometryType' => 'esriGeometryPoint',
-                    'inSR' => 4326,
-                    'spatialRel' => 'esriSpatialRelWithin',
-                    'resultType' => 'none',
-                    'distance' => '0.0',
-                    'units' => 'esriSRUnit_Meter',
-                    'returnGeodetic' => 'false',
-                    'outFields' => '*',
-                    'returnGeometry' => 'true',
-                    'returnCentroid' => 'false',
-                    'multipatchOption' => 'xyFootprint',
-                    'maxAllowableOffset' => '',
-                    'geometryPrecision' => '',
-                    'outSR' => 4326,
-                    'returnIdsOnly' => 'false',
-                    'returnCountOnly' => 'false',
-                    'returnExtentOnly' => 'false',
-                    'returnDistinctValues' => 'false',
-                    'orderByFields' => '',
-                    'groupByFieldsForStatistics' => '',
-                    'outStatistics' => '',
-                    'resultOffset' => '',
-                    'resultRecordCount' => '',
-                    'returnZ' => 'false',
-                    'returnM' => 'false',
-                    'quantizationParameters' => '',
-                    'sqlFormat' => 'none',
-                    'f' => 'pgeojson',
-                ];
-                /** @var ResponseInterface $response */
-                $response = $client->get('0/query', [
-                    'query' => $queryParams
-                ]);
-
-                if ($response->getStatusCode() === 200) {
-                    $json = json_decode($response->getBody()->getContents());
-                    foreach ($json->features as $rco) {
-                        $current = $rco->properties;
-                        $current->geometry = $rco->geometry;
-                        $current = $this->sanitizeRCO($current);
-                        Cache::put("rco_".$current->id, $current, Carbon::today()->endOfDay());
-                        $rco = $current;
-                    }
-                } else {
-                    // We didn't get a success, handle exception
-                    throw $this->generateException($response);
-                }
-            } catch (Exception $e) {
-            // Something bad happened during the
-            throw $e;
-            }
-        } else {
-            $rco = Cache::get("rco_$id");
-        }
-        return $rco;
-    }
-    
     protected function toSystemRCO($json) {
         $new = false;
         // $current = $rco->properties;
@@ -200,7 +119,8 @@ class GISRCOTranslationService implements RCOTranslationService
         }
 
         $rco->last_response = json_encode($json);
-        $rco->polygon = Organization::convertGeoPolygon(json_encode($json->geometry->coordinates[0]));
+        $rco->last_response_at = Carbon::now();
+        $rco->geometry = json_encode($json->geometry);
         $rco->save();
 
 
