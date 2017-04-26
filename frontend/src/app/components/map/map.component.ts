@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MapService } from '../../services/map.service';
 
 declare const mapboxgl;
-let Map = mapboxgl.Map;
-let Popup = mapboxgl.Popup;
+const Map = mapboxgl.Map;
+const Popup = mapboxgl.Popup;
+const Navigation = mapboxgl.NavigationControl;
+const Geolocate = mapboxgl.GeolocateControl;
+const Fullscreen = mapboxgl.FullscreenControl;
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYmlsbG1vcmlhcnR5IiwiYSI6ImNqMTVvZGF5bjAxMDEzM21vZDJoMTEya2QifQ.ok-L_bNQuF8knLOevFLezw';
 
@@ -18,9 +21,9 @@ export class MapComponent implements OnInit {
   id: any;
 
 
-    constructor(private mapService: MapService) {}
+  constructor(private mapService: MapService) {}
 
-    ngOnInit() {
+  ngOnInit() {
     const map = new Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',
@@ -30,8 +33,8 @@ export class MapComponent implements OnInit {
 
     this.mapService.map = map;
 
-      var layer: any;
-      layer = {
+    let layer: any;
+    layer = {
       id: 'rco-data',
       type: 'fill',
       // Add a GeoJSON source containing place coordinates and information.
@@ -50,56 +53,69 @@ export class MapComponent implements OnInit {
     };
 
     map.on('load', () => {
-    // Add the data to your map as a layer
+      // Add the data to your map as a layer
       map.addLayer(layer);
+      // Add zoom and rotation controls to the map.
+      map.addControl(new Navigation());
+      // Add geolocate control to the map.
+      map.addControl(new Geolocate());
+      map.addControl(new Fullscreen());
     });
 
-    //When a click event occurs on a feature in the states layer, open a popup at the
-    //location of the click, with description HTML from its properties.
-    //I should make the names of the RCO's link to the RCO
-        map.on.bind(map, "click", "rco-data")(function (e) {
+    // When a click event occurs on a feature in the states layer, open a popup at the
+    // location of the click, with description HTML from its properties.
+    // I should make the names of the RCO's link to the RCO
+    map.on.bind(map, 'click', 'rco-data')(function (e) {
+      var popup = new Popup();
+      var string_for_popup;
+      console.log('event', e);
+      // this first check for No RCO's doesn't work yet
+      // it doesn't work because it appears that there's RCO coverage for the entire extent of Philly - LM 4/26/17
+      if (e.features.length < 1) {
+        string_for_popup = "<p class='popup-title'>No RCO's serve this neighborhood. Maybe you should start one!</p>";
+      }
+      // if there is 1 RCO for the area clicked
+      else if (e.features.length == 1) {
+        string_for_popup = "<p class='popup-title'>The " +e.features.length+ " RCO that serves this neighborhood is:</p>";
+      }
+      // if there is more than 1 RCO for the area clicked
+      else if (e.features.length > 1) {
+        string_for_popup = "<p class='popup-title'>The " +e.features.length+ " RCO's that serve this neighborhood are:</p>";
+      }
 
-          var popup = new Popup();
-          var string_for_popup;
+      // loop thru and concatenate each RCO in this territory together in a variable for a Popup
+      for (let i = 0; i < e.features.length; i++) {
+        // use this to display the RCO's preferred contact information
+        let rcoContactTemp: any;
 
-          //this first check for No RCO's doesn't work yet
-          if(e.features.length < 1){
-            string_for_popup = "No RCO's serve this neighborhood. Maybe you should start one!";
+        // check with preferred method of contact the RCO specified and use that for their displayed contact
+        if (e.features[i].properties.PREFFERED_CONTACT_METHOD === "Email"){
+            rcoContactTemp = e.features[i].properties.PRIMARY_EMAIL;
             }
-          // if there is 1 RCO for the area clicked
-          else if(e.features.length == 1){
-            string_for_popup = "The " +e.features.length+ " RCO that serves this neighborhood is:<br><br>";
-            }
-          // if there is more than 1 RCO for the area clicked
-          else if(e.features.length > 1){
-            string_for_popup = "The " +e.features.length+ " RCO's that serve this neighborhood are:<br><br>";
-            }
+        else if (e.features[i].properties.PREFFERED_CONTACT_METHOD === "Mail"){
+            rcoContactTemp = e.features[i].properties.PRIMARY_ADDRESS;
+        }
+        else if (e.features[i].properties.PREFFERED_CONTACT_METHOD === "Phone"){
+            rcoContactTemp = e.features[i].properties.PRIMARY_PHONE;
+        }
 
-          // loop thru and concatenate each RCO in this territory together in a variable for a Popup
-          for(let i=0; i<e.features.length; i++){
+        popup.setLngLat(e.lngLat)
+        let rcoId = e.features[i].id;
 
-            // use this to display the RCO's preferred contact information
-            var rcoContactTemp;
+        string_for_popup = string_for_popup
+          .concat("<a href='detail/" + rcoId + "'>" + e.features[i].properties.ORGANIZATION_NAME + "</a>" +
+            "<br>" + rcoContactTemp + "<br><br>");
+            // would be better to use routerLink, but this works for now -LM
 
-            // check with preferred method of contact the RCO specified and use that for their displayed contact
-            if(e.features[i].properties.PREFFERED_CONTACT_METHOD === "Email"){
-                rcoContactTemp = e.features[i].properties.PRIMARY_EMAIL;
-                }
-            else if (e.features[i].properties.PREFFERED_CONTACT_METHOD === "Mail"){
-                rcoContactTemp = e.features[i].properties.PRIMARY_ADDRESS;
-            }
-            else if (e.features[i].properties.PREFFERED_CONTACT_METHOD === "Phone"){
-                rcoContactTemp = e.features[i].properties.PRIMARY_PHONE;
-            }
+       }// end for
 
-            popup.setLngLat(e.lngLat)
-            string_for_popup = string_for_popup.concat(e.features[i].properties.ORGANIZATION_NAME + "<br>" + rcoContactTemp + "<br><br>");
+        // when the for loop is done, display the popup
+        popup.setHTML(string_for_popup);
+        popup.addTo(map);
+    });
 
-           }//end for
 
-            // when the for loop is done, display the popup
-            popup.setHTML(string_for_popup);
-            popup.addTo(map);
-        });
-    }
+
+
+  }
 }

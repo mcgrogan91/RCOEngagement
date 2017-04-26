@@ -64,7 +64,7 @@ No known bugs.
 ----
 ### **Support and Contact Details**
 
-Chat with us on Slack at codeforphilly.slack.com - '#rcos' channel
+Chat with us on Slack at codeforphilly.slack.com - '#myphilly' channel
 
 ----
 ### **Technologies Used**
