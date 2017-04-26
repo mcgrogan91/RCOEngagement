@@ -25,7 +25,7 @@ class RCOSearchController extends Controller
 
     public function get($id)
     {
-        return response()->json(Organization::find($id));
+        return response()->json(Organization::find($id)->load(['committees', 'socialMedia']));
     }
     public function search($address = null)
     {
