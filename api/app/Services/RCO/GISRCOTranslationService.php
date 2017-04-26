@@ -26,87 +26,11 @@ class GISRCOTranslationService implements RCOTranslationService
      */
     public function getRCOListForGPS(stdClass $coordinates): Collection
     {
+
         $rcos = [];
-        $coordinatePair = sprintf('{"y":"%s","x":"%s"}', $coordinates->latitude, $coordinates->longitude);
-        if (!Cache::has($coordinatePair)) {
-            $api = env('RCO_API_ADDRESS');
-            if (!$api) {
-                throw new Exception('RCO_API_ADDRESS not set up: See documentation for setup under External Resources');
-            }
-
-            $client = new Client([
-                // Base URI is used with relative requests
-                'base_uri' => $api
-            ]);
-
-            try {
-                $time_search_started = Carbon::now();
-                set_time_limit(0);
-                $queryParams = [
-                    'where' => '1=1',
-                    'geometry' => $coordinatePair,
-                    'geometryType' => 'esriGeometryPoint',
-                    'inSR' => 4326,
-                    'spatialRel' => 'esriSpatialRelWithin',
-                    'resultType' => 'none',
-                    'distance' => '0.0',
-                    'units' => 'esriSRUnit_Meter',
-                    'returnGeodetic' => 'false',
-                    'outFields' => '*',
-                    'returnGeometry' => 'true',
-                    'returnCentroid' => 'false',
-                    'multipatchOption' => 'xyFootprint',
-                    'maxAllowableOffset' => '',
-                    'geometryPrecision' => '',
-                    'outSR' => 4326,
-                    'returnIdsOnly' => 'false',
-                    'returnCountOnly' => 'false',
-                    'returnExtentOnly' => 'false',
-                    'returnDistinctValues' => 'false',
-                    'orderByFields' => '',
-                    'groupByFieldsForStatistics' => '',
-                    'outStatistics' => '',
-                    'resultOffset' => '',
-                    'resultRecordCount' => '',
-                    'returnZ' => 'false',
-                    'returnM' => 'false',
-                    'quantizationParameters' => '',
-                    'sqlFormat' => 'none',
-                    'f' => 'pgeojson',
-                ];
-                /** @var ResponseInterface $response */
-                $response = $client->get('0/query', [
-                    'query' => $queryParams
-                ]);
-
-                if ($response->getStatusCode() === 200) {
-                    $time_search_completed = Carbon::now();
-                    $json = json_decode($response->getBody()->getContents());
-                    foreach ($json->features as $rco) {
-                        $current = $rco->properties;
-                        $current->geometry = $rco->geometry;
-                        $current = $this->sanitizeRCO($current);
-                        Cache::put("rco_".$current->id, $current, Carbon::today()->endOfDay());
-                        $rcos[] = $current;
-                    }
-                } else {
-                    // We didn't get a success, handle exception
-                    throw $this->generateException($response);
-                }
-                Cache::put($coordinatePair, $rcos, Carbon::today()->endOfDay());
-            } catch (Exception $e) {
-                // Something bad happened during the
-                throw $e;
-            }
-        } else {
-            $time_search_started = Carbon::now();
-            $rcos = Cache::get($coordinatePair);
-            $time_search_completed = Carbon::now();
-        }
-        $time_return = Carbon::now();
-        error_log("Search time: ".$time_search_completed->diffInSeconds($time_search_started). " seconds");
-        error_log("Processing time: ".$time_return->diffInSeconds($time_search_completed). " seconds");
-        return collect($rcos);
+        $coordinatePoint = sprintf('POINT(%s %s)', $coordinates->longitude, $coordinates->latitude);
+        $organizations = Organization::whereRaw("ST_CONTAINS(geometry, GeomFromText('$coordinatePoint', 4326))")->with(['committees', 'socialMedia'])->get();
+        return $organizations;
     }
 
     /**
@@ -117,181 +41,101 @@ class GISRCOTranslationService implements RCOTranslationService
     public function getAllRCOs(): Collection
     {
         $rcos = [];
-        if (!Cache::has('all')) {
-            $api = env('RCO_API_ADDRESS');
-            if (!$api) {
-                throw new Exception('RCO_API_ADDRESS not set up: See documentation for setup under External Resources');
-            }
+        $api = env('RCO_API_ADDRESS');
+        if (!$api) {
+            throw new Exception('RCO_API_ADDRESS not set up: See documentation for setup under External Resources');
+        }
 
-            $client = new Client([
-                // Base URI is used with relative requests
-                'base_uri' => $api
+        $client = new Client([
+            // Base URI is used with relative requests
+            'base_uri' => $api
+        ]);
+
+        try {
+            set_time_limit(0);
+            $queryParams = [
+                'where' => '1=1',
+                'geometryType' => 'esriGeometryPoint',
+                'inSR' => 4326,
+                'spatialRel' => 'esriSpatialRelWithin',
+                'resultType' => 'none',
+                'distance' => '0.0',
+                'units' => 'esriSRUnit_Meter',
+                'returnGeodetic' => 'false',
+                'outFields' => '*',
+                'returnGeometry' => 'true',
+                'returnCentroid' => 'false',
+                'multipatchOption' => 'xyFootprint',
+                'maxAllowableOffset' => '',
+                'geometryPrecision' => '',
+                'outSR' => 4326,
+                'returnIdsOnly' => 'false',
+                'returnCountOnly' => 'false',
+                'returnExtentOnly' => 'false',
+                'returnDistinctValues' => 'false',
+                'orderByFields' => '',
+                'groupByFieldsForStatistics' => '',
+                'outStatistics' => '',
+                'resultOffset' => '',
+                'resultRecordCount' => '',
+                'returnZ' => 'false',
+                'returnM' => 'false',
+                'quantizationParameters' => '',
+                'sqlFormat' => 'none',
+                'f' => 'pgeojson',
+            ];
+            /** @var ResponseInterface $response */
+            $response = $client->get('0/query', [
+                'query' => $queryParams
             ]);
 
-            try {
-                set_time_limit(0);
-                $queryParams = [
-                    'where' => '1=1',
-                    'geometryType' => 'esriGeometryPoint',
-                    'inSR' => 4326,
-                    'spatialRel' => 'esriSpatialRelWithin',
-                    'resultType' => 'none',
-                    'distance' => '0.0',
-                    'units' => 'esriSRUnit_Meter',
-                    'returnGeodetic' => 'false',
-                    'outFields' => '*',
-                    'returnGeometry' => 'true',
-                    'returnCentroid' => 'false',
-                    'multipatchOption' => 'xyFootprint',
-                    'maxAllowableOffset' => '',
-                    'geometryPrecision' => '',
-                    'outSR' => 4326,
-                    'returnIdsOnly' => 'false',
-                    'returnCountOnly' => 'false',
-                    'returnExtentOnly' => 'false',
-                    'returnDistinctValues' => 'false',
-                    'orderByFields' => '',
-                    'groupByFieldsForStatistics' => '',
-                    'outStatistics' => '',
-                    'resultOffset' => '',
-                    'resultRecordCount' => '',
-                    'returnZ' => 'false',
-                    'returnM' => 'false',
-                    'quantizationParameters' => '',
-                    'sqlFormat' => 'none',
-                    'f' => 'pgeojson',
-                ];
-                /** @var ResponseInterface $response */
-                $response = $client->get('0/query', [
-                    'query' => $queryParams
-                ]);
-
-                if ($response->getStatusCode() === 200) {
-                    $json = json_decode($response->getBody()->getContents());
-                    foreach ($json->features as $rco) {
-                        $current = $rco->properties;
-                        $current->geometry = $rco->geometry;
-                        $current = $this->sanitizeRCO($current);
-                        Cache::put("rco_".$current->id, $current, Carbon::today()->endOfDay());
-                        $rcos[] = $current;
-                    }
-                } else {
-                    // We didn't get a success, handle exception
-                    throw $this->generateException($response);
+            if ($response->getStatusCode() === 200) {
+                $responseJson = $response->getBody()->getContents();
+                $json = json_decode($responseJson);
+                foreach ($json->features as $rco) {
+                    $rcos[] = $current = $this->toSystemRCO($rco);
                 }
-                Cache::put('all', $rcos, Carbon::today()->endOfDay());
-            } catch (Exception $e) {
-                // Something bad happened during the
-                throw $e;
+            } else {
+                // We didn't get a success, handle exception
+                throw $this->generateException($response);
             }
-        } else {
-            $rcos = Cache::get('all');
+                
+        } catch (Exception $e) {
+            // Something bad happened during the
+            throw $e;
         }
         return collect($rcos);
     }
 
-    /**
-     * Given the local ID for an RCO, get any information that should be associated with it
-     * @param  int    $id The ID of the object we're looking for
-     * @return stdClass     The description of the RCO
-     */
-    public function getRCO(int $id): stdClass
-    {
-        $rco = null;
-
-        if (!Cache::has("rco_$id")) {
-            $api = env('RCO_API_ADDRESS');
-            if (!$api) {
-                throw new Exception('RCO_API_ADDRESS not set up: See documentation for setup under External Resources');
-            }
-
-            $client = new Client([
-                // Base URI is used with relative requests
-                'base_uri' => $api
-            ]);
-            $rco = Organization::find($id);
-            try {
-                set_time_limit(0);
-                $queryParams = [
-                    'where' => "ORGANIZATION_NAME='".$rco->name."'",
-                    'geometryType' => 'esriGeometryPoint',
-                    'inSR' => 4326,
-                    'spatialRel' => 'esriSpatialRelWithin',
-                    'resultType' => 'none',
-                    'distance' => '0.0',
-                    'units' => 'esriSRUnit_Meter',
-                    'returnGeodetic' => 'false',
-                    'outFields' => '*',
-                    'returnGeometry' => 'true',
-                    'returnCentroid' => 'false',
-                    'multipatchOption' => 'xyFootprint',
-                    'maxAllowableOffset' => '',
-                    'geometryPrecision' => '',
-                    'outSR' => 4326,
-                    'returnIdsOnly' => 'false',
-                    'returnCountOnly' => 'false',
-                    'returnExtentOnly' => 'false',
-                    'returnDistinctValues' => 'false',
-                    'orderByFields' => '',
-                    'groupByFieldsForStatistics' => '',
-                    'outStatistics' => '',
-                    'resultOffset' => '',
-                    'resultRecordCount' => '',
-                    'returnZ' => 'false',
-                    'returnM' => 'false',
-                    'quantizationParameters' => '',
-                    'sqlFormat' => 'none',
-                    'f' => 'pgeojson',
-                ];
-                /** @var ResponseInterface $response */
-                $response = $client->get('0/query', [
-                    'query' => $queryParams
-                ]);
-
-                if ($response->getStatusCode() === 200) {
-                    $json = json_decode($response->getBody()->getContents());
-                    foreach ($json->features as $rco) {
-                        $current = $rco->properties;
-                        $current->geometry = $rco->geometry;
-                        $current = $this->sanitizeRCO($current);
-                        Cache::put("rco_".$current->id, $current, Carbon::today()->endOfDay());
-                        $rco = $current;
-                    }
-                } else {
-                    // We didn't get a success, handle exception
-                    throw $this->generateException($response);
-                }
-            } catch (Exception $e) {
-            // Something bad happened during the
-            throw $e;
-            }
-        } else {
-            $rco = Cache::get("rco_$id");
+    protected function toSystemRCO($json) {
+        $new = false;
+        // $current = $rco->properties;
+        // $current->geometry = $rco->geometry;
+        $rco = Organization::where('name', $json->properties->ORGANIZATION_NAME)->first();
+        if (!$rco) {
+            $new = true;
+            $rco = new Organization();
+            $rco->name = $json->properties->ORGANIZATION_NAME;
         }
-        return $rco;
-    }
-    
-    protected function sanitizeRCO($rco) {
-        $myRCO = Organization::where('name', $rco->ORGANIZATION_NAME)->first();
-        if (!$myRCO) {
-            $myRCO = new Organization();
-            $myRCO->name = $rco->ORGANIZATION_NAME;
-            $myRCO->save();
 
+        $rco->last_response = json_encode($json);
+        $rco->last_response_at = Carbon::now();
+        $rco->geometry = json_encode($json->geometry);
+        $rco->save();
+
+
+        if ($new === true) {
             // TODO move this into an event
             $token = new SurveyToken();
-            $token->organization_id = $myRCO->id;
+            $token->organization_id = $rco->id;
             $token->token = str_random(50);
             $token->save();
             // Send out email with survey link
         }
 
-        $rco->id = $myRCO->id;
-        $rco->mission_statement = $myRCO->mission_statement;
-        $rco->social_media = $myRCO->socialMedia;
-        $rco->committees = $myRCO->committees;
         return $rco;
     }
+
 
     /**
      * There are a couple ways that the external API can respond which we should package up as our own errors.
