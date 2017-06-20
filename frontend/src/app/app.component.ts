@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ConnectorService } from './services/connector.service';
+import { Angulartics2GoogleAnalytics } from 'angulartics2';
 
 @Component({
   selector: 'my-app',
@@ -11,4 +12,7 @@ import { ConnectorService } from './services/connector.service';
   providers: [ConnectorService],
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent  {}
+
+export class AppComponent  {
+  constructor(angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {}
+}

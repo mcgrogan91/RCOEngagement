@@ -2,6 +2,7 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
 
 import 'rxjs/Rx';
 
@@ -33,7 +34,8 @@ import { routing } from './app.routing';
     BrowserModule,
     FormsModule,
     HttpModule,
-    routing
+    routing,
+    Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
   ],
   declarations: [
     AppComponent,
@@ -56,4 +58,5 @@ import { routing } from './app.routing';
   ],
   bootstrap:    [ AppComponent ],
 })
+
 export class AppModule { }

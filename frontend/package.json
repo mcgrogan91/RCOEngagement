@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "angulartics2": "^2.2.2",
     "core-js": "^2.4.1",
     "mapbox-gl": "^0.36.0",
     "rxjs": "^5.1.0",
