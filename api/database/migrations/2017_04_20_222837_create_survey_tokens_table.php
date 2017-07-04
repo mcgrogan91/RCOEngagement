@@ -14,6 +14,7 @@ class CreateSurveyTokensTable extends Migration
     public function up()
     {
         Schema::create('survey_tokens', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('organization_id')->unsigned();
             $table->string('token',50)->unique();
             $table->boolean('used')->default(false);

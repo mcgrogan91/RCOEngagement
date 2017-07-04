@@ -15,8 +15,6 @@ class SurveyToken extends Model
 {
     protected $table = 'survey_tokens';
 
-    public $primaryKey  = 'token';
-
     public function organization()
     {
         return $this->belongsTo('App\Models\Organization');

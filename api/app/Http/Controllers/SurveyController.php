@@ -25,7 +25,7 @@ class SurveyController
         if ($survey) {
             return view('survey', [
                 'token' => $survey,
-                'rco' => $survey->organization
+                'organization' => $survey->organization
             ]);
         }
     }

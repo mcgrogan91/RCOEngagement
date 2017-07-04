@@ -108,12 +108,10 @@ class GISRCOTranslationService implements RCOTranslationService
     }
 
     protected function toSystemRCO($json) {
-        $new = false;
         // $current = $rco->properties;
         // $current->geometry = $rco->geometry;
         $rco = Organization::where('name', $json->properties->ORGANIZATION_NAME)->first();
         if (!$rco) {
-            $new = true;
             $rco = new Organization();
             $rco->name = $json->properties->ORGANIZATION_NAME;
         }
@@ -122,17 +120,6 @@ class GISRCOTranslationService implements RCOTranslationService
         $rco->last_response_at = Carbon::now();
         $rco->geometry = json_encode($json->geometry);
         $rco->save();
-
-
-        if ($new === true) {
-            // TODO move this into an event
-            $token = new SurveyToken();
-            $token->organization_id = $rco->id;
-            $token->token = str_random(50);
-            $token->save();
-            // Send out email with survey link
-        }
-
         return $rco;
     }
 

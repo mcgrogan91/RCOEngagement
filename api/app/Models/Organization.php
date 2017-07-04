@@ -189,4 +189,14 @@ class Organization extends Model
         }
         return parent::newQuery($excludeDeleted);
     }
+
+    public function surveys()
+    {
+        return $this->hasMany('App\Models\SurveyToken');
+    }
+
+    public function getLatestSurvey()
+    {
+        return $this->surveys()->orderBy('created_at', 'DESC')->first();
+    }
 }
